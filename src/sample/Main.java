@@ -16,7 +16,7 @@ public class Main extends Application {
     Tab tabAdd, tabSearch, tabView, tabExport, tabImport;
     GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
 
-    Label lblFirstName, lblLastName, lblEmail, lblNumber;
+    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber;
     TextField txtFirstName, txtLastName, txtEmail, txtNumber;
     Button btnAdd, btnExport, btnImport;
 
@@ -25,12 +25,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         people = new ArrayList<>();
-        
+
         root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         tabAdd = new Tab("Add");
-        tabSearch = new Tab("Edit");
+        tabSearch = new Tab("Search");
         tabView = new Tab("View");
         tabExport = new Tab("Export");
         tabImport = new Tab("Import");
@@ -63,10 +63,23 @@ public class Main extends Application {
         paneSearch.setHgap(5);
         paneSearch.setPadding(new Insets(5));
 
+        lblViewFirstName = new Label();
+        lblViewLastName = new Label();
+        lblViewEmail = new Label();
+        lblViewNumber = new Label();
         paneView = new GridPane();
         paneView.setVgap(5);
         paneView.setHgap(5);
         paneView.setPadding(new Insets(5));
+        paneView.add(lblFirstName, 0, 0);
+        paneView.add(lblViewFirstName, 1, 0, 2, 1);
+        paneView.add(lblLastName, 0, 1);
+        paneView.add(lblViewLastName, 1, 1, 2, 1);
+        paneView.add(lblEmail, 0, 2);
+        paneView.add(lblViewEmail, 1, 2, 2, 1);
+        paneView.add(lblNumber, 0, 3);
+        paneView.add(lblViewNumber, 1, 3, 2, 1);
+        paneView.add(btnAdd, 1, 4);
 
         paneExport = new GridPane();
         paneExport.setVgap(5);
@@ -82,14 +95,27 @@ public class Main extends Application {
         btnImport = new Button("Import");
         paneImport.add(btnImport, 0, 0);
 
+        btnAdd.setOnAction(
+            e -> {
+                people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
+                txtFirstName.setText("");
+                txtLastName.setText("");
+                txtEmail.setText("");
+                txtNumber.setText("");
+            }
+        );
         tabAdd.setContent(paneAdd);
+        tabSearch.setContent(paneSearch);
+        tabView.setContent(paneView);
+        tabExport.setContent(paneExport);
+        tabImport.setContent(paneImport);
+        
         root.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport);
 
         primaryStage.setTitle("Contact Book");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
