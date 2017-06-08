@@ -1,14 +1,23 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -25,7 +34,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        people = new ArrayList<>();
+        people = importContactList(new File("contact-list.xml"));
 
         root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -90,6 +99,14 @@ public class Main extends Application {
         paneView.add(btnPrevious, 1, 4);
         paneView.add(btnNext, 2, 4);
 
+        if(people.size() > 0){
+            index = 0;
+            lblResultFirstName.setText(people.get(index).getFirstName());
+            lblResultLastName.setText(people.get(index).getLastName());
+            lblResultEmail.setText(people.get(index).getEmail());
+            lblResultNumber.setText(people.get(index).getNumber());
+        }
+
         paneExport = new GridPane();
         paneExport.setVgap(5);
         paneExport.setHgap(5);
@@ -143,6 +160,44 @@ public class Main extends Application {
             }
         );
 
+        btnExport.setOnAction(
+            e -> {
+                try {
+                    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                    Document doc = docBuilder.newDocument();
+
+                    Element rootElement = doc.createElement("people");
+                    doc.appendChild(rootElement);
+
+                    for (Person aPeople : people) {
+                        Element person = doc.createElement("person");
+                        Element firstName = doc.createElement("first-name");
+                        firstName.appendChild(doc.createTextNode(aPeople.getFirstName()));
+                        Element lastName = doc.createElement("last-name");
+                        lastName.appendChild(doc.createTextNode(aPeople.getLastName()));
+                        Element email = doc.createElement("email");
+                        email.appendChild(doc.createTextNode(aPeople.getEmail()));
+                        Element number = doc.createElement("phone-number");
+                        number.appendChild(doc.createTextNode(aPeople.getNumber()));
+                        person.appendChild(firstName);
+                        person.appendChild(lastName);
+                        person.appendChild(email);
+                        person.appendChild(number);
+                        rootElement.appendChild(person);
+
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = transformerFactory.newTransformer();
+                        DOMSource source = new DOMSource(doc);
+                        StreamResult result = new StreamResult(new File("contact-list.xml"));
+                        transformer.transform(source, result);
+                    }
+                } catch (ParserConfigurationException | TransformerException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        );
+
         tabAdd.setContent(paneAdd);
         tabSearch.setContent(paneSearch);
         tabView.setContent(paneView);
@@ -154,6 +209,25 @@ public class Main extends Application {
         primaryStage.setTitle("Contact Book");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+    }
+
+    private ArrayList<Person> importContactList(File file){
+        ArrayList<Person> people = new ArrayList<>();
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(file);
+
+            NodeList nList = doc.getElementsByTagName("person");
+
+            for(int i = 0; i < nList.getLength(); i++){
+                people.add(new Person(nList.item(i).getChildNodes().item(0).getTextContent(), nList.item(i).getChildNodes().item(1).getTextContent(), nList.item(i).getChildNodes().item(2).getTextContent(), nList.item(i).getChildNodes().item(3).getTextContent()));
+                System.out.println("test");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return people;
     }
 
     public static void main(String[] args) {
