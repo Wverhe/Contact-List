@@ -1,7 +1,9 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -10,15 +12,15 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    private TabPane root;
-    private Tab tabAdd, tabSearch, tabView, tabExport, tabImport;
-    private GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
+    TabPane root;
+    Tab tabAdd, tabSearch, tabView, tabExport, tabImport;
+    GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
 
-    private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber;
-    private TextField txtFirstName, txtLastName, txtEmail, txtNumber;
-    private Button btnAdd, btnExport, btnImport, btnPrevious, btnNext;
+    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber;
+    TextField txtFirstName, txtLastName, txtEmail, txtNumber;
+    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext;
 
-    private  ArrayList<Person> people;
+    ArrayList<Person> people;
     private int index = -1;
 
     @Override
