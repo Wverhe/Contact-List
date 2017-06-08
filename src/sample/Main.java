@@ -16,11 +16,12 @@ public class Main extends Application {
     Tab tabAdd, tabSearch, tabView, tabExport, tabImport;
     GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
 
-    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber;
+    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber;
     TextField txtFirstName, txtLastName, txtEmail, txtNumber;
-    Button btnAdd, btnExport, btnImport;
+    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext;
 
     ArrayList<Person> people;
+    private int index = -1;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -63,23 +64,31 @@ public class Main extends Application {
         paneSearch.setHgap(5);
         paneSearch.setPadding(new Insets(5));
 
-        lblViewFirstName = new Label();
-        lblViewLastName = new Label();
-        lblViewEmail = new Label();
-        lblViewNumber = new Label();
+        lblViewFirstName = new Label("First Name: ");
+        lblViewLastName = new Label("Last Name: ");
+        lblViewEmail = new Label("Email: ");
+        lblViewNumber = new Label("Phone Number: ");
+        lblResultFirstName = new Label();
+        lblResultLastName = new Label();
+        lblResultEmail = new Label();
+        lblResultNumber = new Label();
+        btnPrevious = new Button("Previous");
+        btnNext = new Button("Next");
+
         paneView = new GridPane();
         paneView.setVgap(5);
         paneView.setHgap(5);
         paneView.setPadding(new Insets(5));
-        paneView.add(lblFirstName, 0, 0);
-        paneView.add(lblViewFirstName, 1, 0, 2, 1);
-        paneView.add(lblLastName, 0, 1);
-        paneView.add(lblViewLastName, 1, 1, 2, 1);
-        paneView.add(lblEmail, 0, 2);
-        paneView.add(lblViewEmail, 1, 2, 2, 1);
-        paneView.add(lblNumber, 0, 3);
-        paneView.add(lblViewNumber, 1, 3, 2, 1);
-        paneView.add(btnAdd, 1, 4);
+        paneView.add(lblViewFirstName, 0, 0);
+        paneView.add(lblResultFirstName, 1, 0, 2, 1);
+        paneView.add(lblViewLastName, 0, 1);
+        paneView.add(lblResultLastName, 1, 1, 2, 1);
+        paneView.add(lblViewEmail, 0, 2);
+        paneView.add(lblResultEmail, 1, 2, 2, 1);
+        paneView.add(lblViewNumber, 0, 3);
+        paneView.add(lblResultNumber, 1, 3, 2, 1);
+        paneView.add(btnPrevious, 1, 4);
+        paneView.add(btnNext, 2, 4);
 
         paneExport = new GridPane();
         paneExport.setVgap(5);
@@ -95,6 +104,7 @@ public class Main extends Application {
         btnImport = new Button("Import");
         paneImport.add(btnImport, 0, 0);
 
+        //TODO: Add format verification
         btnAdd.setOnAction(
             e -> {
                 people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
@@ -104,12 +114,41 @@ public class Main extends Application {
                 txtNumber.setText("");
             }
         );
+
+        btnNext.setOnAction(
+            e -> {
+                if (index == people.size() - 1){
+                    index = 0;
+                } else {
+                    index += 1;
+                }
+                lblResultFirstName.setText(people.get(index).getFirstName());
+                lblResultLastName.setText(people.get(index).getLastName());
+                lblResultEmail.setText(people.get(index).getEmail());
+                lblResultNumber.setText(people.get(index).getNumber());
+            }
+        );
+
+        btnPrevious.setOnAction(
+            e -> {
+                if (index == 0){
+                    index = people.size() - 1;
+                } else {
+                    index -= 1;
+                }
+                lblResultFirstName.setText(people.get(index).getFirstName());
+                lblResultLastName.setText(people.get(index).getLastName());
+                lblResultEmail.setText(people.get(index).getEmail());
+                lblResultNumber.setText(people.get(index).getNumber());
+            }
+        );
+
         tabAdd.setContent(paneAdd);
         tabSearch.setContent(paneSearch);
         tabView.setContent(paneView);
         tabExport.setContent(paneExport);
         tabImport.setContent(paneImport);
-        
+
         root.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport);
 
         primaryStage.setTitle("Contact Book");
