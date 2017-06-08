@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,6 +27,7 @@ public class Main extends Application {
     GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
 
     Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber;
+    Label lblError;
     TextField txtFirstName, txtLastName, txtEmail, txtNumber;
     Button btnAdd, btnExport, btnImport, btnPrevious, btnNext;
 
@@ -58,6 +60,13 @@ public class Main extends Application {
         txtEmail = new TextField();
         txtNumber = new TextField();
         btnAdd = new Button("Add Contact");
+        //TODO: Fix Styling
+        lblError = new Label("Error: Test");
+        lblError.setMinWidth(150);
+        lblError.setTextFill(Color.web("#FF0000"));
+        lblError.setStyle("-fx-border-color: #FF00AA");
+        lblError.setVisible(false);
+
         paneAdd.add(lblFirstName, 0, 0);
         paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
@@ -67,7 +76,7 @@ public class Main extends Application {
         paneAdd.add(lblNumber, 0, 3);
         paneAdd.add(txtNumber, 1, 3, 2, 1);
         paneAdd.add(btnAdd, 1, 4);
-
+        paneAdd.add(lblError, 0, 5, 3, 1);
         paneSearch = new GridPane();
         paneSearch.setVgap(5);
         paneSearch.setHgap(5);
@@ -124,11 +133,20 @@ public class Main extends Application {
         //TODO: Add format verification
         btnAdd.setOnAction(
             e -> {
-                people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
-                txtFirstName.setText("");
-                txtLastName.setText("");
-                txtEmail.setText("");
-                txtNumber.setText("");
+                if(!txtEmail.getText().contains("@")){
+                    lblError.setText("Error: Invalid Email");
+                    lblError.setVisible(true);
+                }else if(!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17){
+                    lblError.setText("Error: Invalid Phone Number");
+                    lblError.setVisible(true);
+                }else{
+                    people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
+                    txtFirstName.setText("");
+                    txtLastName.setText("");
+                    txtEmail.setText("");
+                    txtNumber.setText("");
+                    lblError.setVisible(false);
+                }
             }
         );
 
@@ -214,6 +232,9 @@ public class Main extends Application {
     private ArrayList<Person> importContactList(File file){
         ArrayList<Person> people = new ArrayList<>();
         try {
+            if(!file.exists()){
+                return people;
+            }
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(file);
@@ -222,7 +243,6 @@ public class Main extends Application {
 
             for(int i = 0; i < nList.getLength(); i++){
                 people.add(new Person(nList.item(i).getChildNodes().item(0).getTextContent(), nList.item(i).getChildNodes().item(1).getTextContent(), nList.item(i).getChildNodes().item(2).getTextContent(), nList.item(i).getChildNodes().item(3).getTextContent()));
-                System.out.println("test");
             }
         }catch (Exception e) {
             e.printStackTrace();
