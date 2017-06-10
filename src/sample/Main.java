@@ -2,10 +2,13 @@ package sample;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,11 +63,12 @@ public class Main extends Application {
         txtEmail = new TextField();
         txtNumber = new TextField();
         btnAdd = new Button("Add Contact");
-        //TODO: Fix Styling
         lblError = new Label("Error: Test");
-        lblError.setMinWidth(150);
-        lblError.setTextFill(Color.web("#FF0000"));
-        lblError.setStyle("-fx-border-color: #FF00AA");
+        lblError.setMinWidth(200);
+        lblError.setAlignment(Pos.CENTER);
+        lblError.setTextFill(Color.web("#800000"));
+        lblError.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
+        lblError.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
         lblError.setVisible(false);
 
         paneAdd.add(lblFirstName, 0, 0);
@@ -133,7 +137,13 @@ public class Main extends Application {
         //TODO: Add format verification
         btnAdd.setOnAction(
             e -> {
-                if(!txtEmail.getText().contains("@")){
+                if(txtFirstName.getText().length() == 0) {
+                    lblError.setText("First Name Invalid");
+                    lblError.setVisible(true);
+                }else if(txtLastName.getText().length() == 0){
+                    lblError.setText("Last Name Invalid");
+                    lblError.setVisible(true);
+                }else if(!txtEmail.getText().contains("@")){
                     lblError.setText("Error: Invalid Email");
                     lblError.setVisible(true);
                 }else if(!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17){
