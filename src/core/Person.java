@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 /**
  * Created by agaspari on 6/7/2017.
@@ -26,5 +26,21 @@ public class Person {
 
     public String getNumber(){
         return number;
+    }
+
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setNumber(String number){
+        this.number = number;
     }
 }

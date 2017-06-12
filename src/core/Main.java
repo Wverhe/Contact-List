@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -26,13 +26,13 @@ import java.util.ArrayList;
 
 public class Main extends Application {
     TabPane root;
-    Tab tabAdd, tabSearch, tabView, tabExport, tabImport;
-    GridPane paneAdd, paneSearch, paneView, paneExport, paneImport;
+    Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
+    GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
-    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber;
+    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber;
     Label lblError;
-    TextField txtFirstName, txtLastName, txtEmail, txtNumber;
-    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext;
+    TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber;
+    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit;
 
     ArrayList<Person> people;
     private int index = -1;
@@ -47,8 +47,20 @@ public class Main extends Application {
         tabAdd = new Tab("Add");
         tabSearch = new Tab("Search");
         tabView = new Tab("View");
+        tabEdit = new Tab("Edit");
         tabExport = new Tab("Export");
         tabImport = new Tab("Import");
+
+        tabView.setOnSelectionChanged(
+            e -> {
+                if(index != -1){
+                    lblResultFirstName.setText(people.get(index).getFirstName());
+                    lblResultLastName.setText(people.get(index).getLastName());
+                    lblResultEmail.setText(people.get(index).getEmail());
+                    lblResultNumber.setText(people.get(index).getNumber());
+                }
+            }
+        );
 
         paneAdd = new GridPane();
         paneAdd.setVgap(5);
@@ -70,7 +82,6 @@ public class Main extends Application {
         lblError.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
         lblError.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
         lblError.setVisible(false);
-
         paneAdd.add(lblFirstName, 0, 0);
         paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
@@ -81,11 +92,16 @@ public class Main extends Application {
         paneAdd.add(txtNumber, 1, 3, 2, 1);
         paneAdd.add(btnAdd, 1, 4);
         paneAdd.add(lblError, 0, 5, 3, 1);
+
         paneSearch = new GridPane();
         paneSearch.setVgap(5);
         paneSearch.setHgap(5);
         paneSearch.setPadding(new Insets(5));
 
+        paneView = new GridPane();
+        paneView.setVgap(5);
+        paneView.setHgap(5);
+        paneView.setPadding(new Insets(5));
         lblViewFirstName = new Label("First Name: ");
         lblViewLastName = new Label("Last Name: ");
         lblViewEmail = new Label("Email: ");
@@ -95,12 +111,11 @@ public class Main extends Application {
         lblResultEmail = new Label();
         lblResultNumber = new Label();
         btnPrevious = new Button("Previous");
+        btnPrevious.setMinWidth(75);
         btnNext = new Button("Next");
-
-        paneView = new GridPane();
-        paneView.setVgap(5);
-        paneView.setHgap(5);
-        paneView.setPadding(new Insets(5));
+        btnNext.setMinWidth(75);
+        btnEdit = new Button("Edit");
+        btnEdit.setMinWidth(167);
         paneView.add(lblViewFirstName, 0, 0);
         paneView.add(lblResultFirstName, 1, 0, 2, 1);
         paneView.add(lblViewLastName, 0, 1);
@@ -109,16 +124,35 @@ public class Main extends Application {
         paneView.add(lblResultEmail, 1, 2, 2, 1);
         paneView.add(lblViewNumber, 0, 3);
         paneView.add(lblResultNumber, 1, 3, 2, 1);
-        paneView.add(btnPrevious, 1, 4);
-        paneView.add(btnNext, 2, 4);
-
+        paneView.add(btnPrevious, 0, 4);
+        paneView.add(btnNext, 1, 4);
+        paneView.add(btnEdit, 0, 5, 2, 1);
         if(people.size() > 0){
             index = 0;
-            lblResultFirstName.setText(people.get(index).getFirstName());
-            lblResultLastName.setText(people.get(index).getLastName());
-            lblResultEmail.setText(people.get(index).getEmail());
-            lblResultNumber.setText(people.get(index).getNumber());
         }
+
+        paneEdit = new GridPane();
+        paneEdit.setVgap(5);
+        paneEdit.setHgap(5);
+        paneEdit.setPadding(new Insets(5));
+        lblEditFirstName = new Label("First Name: ");
+        lblEditLastName = new Label("Last Name: ");
+        lblEditEmail = new Label("Email: ");
+        lblEditNumber = new Label("Number: ");
+        txtEditFirstName = new TextField();
+        txtEditLastName = new TextField();
+        txtEditEmail = new TextField();
+        txtEditNumber = new TextField();
+        btnSave = new Button("Save");
+        paneEdit.add(lblEditFirstName, 0, 0);
+        paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
+        paneEdit.add(lblEditLastName, 0, 1);
+        paneEdit.add(txtEditLastName, 1, 1, 2, 1);
+        paneEdit.add(lblEditEmail, 0, 2);
+        paneEdit.add(txtEditEmail, 1, 2, 2, 1);
+        paneEdit.add(lblEditNumber, 0, 3);
+        paneEdit.add(txtEditNumber, 1, 3, 2, 1);
+        paneEdit.add(btnSave, 1, 4);
 
         paneExport = new GridPane();
         paneExport.setVgap(5);
@@ -188,6 +222,25 @@ public class Main extends Application {
             }
         );
 
+        btnEdit.setOnAction(
+            e -> {
+                txtEditFirstName.setText(lblResultFirstName.getText());
+                txtEditLastName.setText(lblResultLastName.getText());
+                txtEditEmail.setText(lblResultEmail.getText());
+                txtEditNumber.setText(lblResultNumber.getText());
+                root.getSelectionModel().select(tabEdit);
+            }
+        );
+
+        btnSave.setOnAction(
+            e -> {
+                people.get(index).setFirstName(txtEditFirstName.getText());
+                people.get(index).setLastName(txtEditLastName.getText());
+                people.get(index).setEmail(txtEditEmail.getText());
+                people.get(index).setNumber(txtEditNumber.getText());
+            }
+        );
+
         btnExport.setOnAction(
             e -> {
                 try {
@@ -229,10 +282,11 @@ public class Main extends Application {
         tabAdd.setContent(paneAdd);
         tabSearch.setContent(paneSearch);
         tabView.setContent(paneView);
+        tabEdit.setContent(paneEdit);
         tabExport.setContent(paneExport);
         tabImport.setContent(paneImport);
 
-        root.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport);
+        root.getTabs().addAll(tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport);
 
         primaryStage.setTitle("Contact Book");
         primaryStage.setScene(new Scene(root, 300, 275));
