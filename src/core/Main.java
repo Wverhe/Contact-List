@@ -62,6 +62,7 @@ public class Main extends Application {
             }
         );
 
+        //TODO: Add specialization, social networks, |age|, |location|
         paneAdd = new GridPane();
         paneAdd.setVgap(5);
         paneAdd.setHgap(5);
@@ -168,7 +169,8 @@ public class Main extends Application {
         btnImport = new Button("Import");
         paneImport.add(btnImport, 0, 0);
 
-        //TODO: Add format verification
+        //TODO: Add format verification (Might be Completed)
+        //TODO: Find flow for unknown email/number
         btnAdd.setOnAction(
             e -> {
                 if(txtFirstName.getText().length() == 0) {
