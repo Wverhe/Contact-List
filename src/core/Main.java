@@ -32,7 +32,7 @@ public class Main extends Application {
     Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber;
     Label lblError;
     TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber;
-    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit;
+    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit, btnDelete;
 
     ArrayList<Person> people;
     private int index = -1;
@@ -58,6 +58,12 @@ public class Main extends Application {
                     lblResultLastName.setText(people.get(index).getLastName());
                     lblResultEmail.setText(people.get(index).getEmail());
                     lblResultNumber.setText(people.get(index).getNumber());
+                }else{
+                    //In case the all elements are deleted from table, the table will show blank.
+                    lblResultFirstName.setText("");
+                    lblResultLastName.setText("");
+                    lblResultEmail.setText("");
+                    lblResultNumber.setText("");
                 }
             }
         );
@@ -145,6 +151,9 @@ public class Main extends Application {
         txtEditEmail = new TextField();
         txtEditNumber = new TextField();
         btnSave = new Button("Save");
+        btnSave.setMinWidth(75);
+        btnDelete = new Button("Delete");
+        btnDelete.setMinWidth(75);
         paneEdit.add(lblEditFirstName, 0, 0);
         paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
         paneEdit.add(lblEditLastName, 0, 1);
@@ -154,6 +163,7 @@ public class Main extends Application {
         paneEdit.add(lblEditNumber, 0, 3);
         paneEdit.add(txtEditNumber, 1, 3, 2, 1);
         paneEdit.add(btnSave, 1, 4);
+        paneEdit.add(btnDelete, 2, 4);
 
         paneExport = new GridPane();
         paneExport.setVgap(5);
@@ -179,10 +189,10 @@ public class Main extends Application {
                 }else if(txtLastName.getText().length() == 0){
                     lblError.setText("Last Name Invalid");
                     lblError.setVisible(true);
-                }else if(!txtEmail.getText().contains("@")){
+                }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
                     lblError.setText("Error: Invalid Email");
                     lblError.setVisible(true);
-                }else if(!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17){
+                }else if(txtEmail.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
                     lblError.setText("Error: Invalid Phone Number");
                     lblError.setVisible(true);
                 }else{
@@ -240,6 +250,22 @@ public class Main extends Application {
                 people.get(index).setLastName(txtEditLastName.getText());
                 people.get(index).setEmail(txtEditEmail.getText());
                 people.get(index).setNumber(txtEditNumber.getText());
+            }
+        );
+
+        btnDelete.setOnAction(
+            e -> {
+                //TODO: Add confirmation
+                //TODO: Find Blank Error
+                if(index != -1){
+                    people.remove(index);
+                    index--;
+                    txtEditFirstName.setText("");
+                    txtEditLastName.setText("");
+                    txtEditEmail.setText("");
+                    txtEditNumber.setText("");
+                    root.getSelectionModel().select(tabView);
+                }
             }
         );
 
