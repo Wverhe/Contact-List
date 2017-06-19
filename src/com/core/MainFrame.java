@@ -244,16 +244,16 @@ public class MainFrame {
         btnAdd.setOnAction(
                 e -> {
                     if(txtFirstName.getText().length() == 0) {
-                        lblErrorAdd.setText("First Name Invalid");
+                        lblErrorAdd.setText("Error: Invalid First Name.");
                         lblErrorAdd.setVisible(true);
                     }else if(txtLastName.getText().length() == 0){
-                        lblErrorAdd.setText("Last Name Invalid");
+                        lblErrorAdd.setText("Error: Invalid Last Name.");
                         lblErrorAdd.setVisible(true);
                     }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
-                        lblErrorAdd.setText("Error: Invalid Email");
+                        lblErrorAdd.setText("Error: Invalid Email.");
                         lblErrorAdd.setVisible(true);
                     }else if(txtNumber.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
-                        lblErrorAdd.setText("Error: Invalid Phone Number");
+                        lblErrorAdd.setText("Error: Invalid Phone Number.");
                         lblErrorAdd.setVisible(true);
                     }else{
                         people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
@@ -307,16 +307,16 @@ public class MainFrame {
         btnSave.setOnAction(
                 e -> {
                     if(txtEditFirstName.getText().length() == 0) {
-                        lblErrorEdit.setText("First Name Invalid");
+                        lblErrorEdit.setText("Error: Invalid First Name.");
                         lblErrorEdit.setVisible(true);
                     }else if(txtEditLastName.getText().length() == 0){
-                        lblErrorEdit.setText("Last Name Invalid");
+                        lblErrorEdit.setText("Error: Invalid Last Name.");
                         lblErrorEdit.setVisible(true);
                     }else if(txtEditEmail.getText().length() > 0 && !txtEditEmail.getText().contains("@")){
-                        lblErrorEdit.setText("Error: Invalid Email");
+                        lblErrorEdit.setText("Error: Invalid Email.");
                         lblErrorEdit.setVisible(true);
                     }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
-                        lblErrorEdit.setText("Error: Invalid Phone Number");
+                        lblErrorEdit.setText("Error: Invalid Phone Number.");
                         lblErrorEdit.setVisible(true);
                     }else{
                         people.get(index).setFirstName(txtEditFirstName.getText());
