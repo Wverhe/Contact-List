@@ -19,6 +19,7 @@ import java.nio.file.Paths;
 /**
  * Created by agaspari on 6/19/2017.
  */
+//TODO: Style more.
 public class PasswordFrame {
     private GridPane frame;
     private PasswordField txtPassword;
@@ -30,6 +31,7 @@ public class PasswordFrame {
         encrypter = new Encrypter();
         password = new File("password.wver");
         frame = new GridPane();
+        frame.setAlignment(Pos.TOP_CENTER);
         frame.setVgap(5);
         frame.setHgap(5);
         frame.setPadding(new Insets(5));
@@ -47,7 +49,7 @@ public class PasswordFrame {
             e -> {
                 try {
                     if(encrypter.decryptText(readFile(password.getPath(), Charset.defaultCharset())).equals(txtPassword.getText())){
-                        Main.getPrimaryStage().setScene(new Scene(MainFrame.getFrame(), 300, 275));
+                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 300, 275));
                         lblError.setVisible(false);
                     }else{
                         lblError.setText("Error: Invalid Password.");
@@ -65,13 +67,12 @@ public class PasswordFrame {
         frame.add(lblError, 0, 2, 3, 1);
     }
 
-    public GridPane getFrame(){
-        return frame;
-    }
-
     private String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
     }
 
+    public GridPane getFrame(){
+        return frame;
+    }
 }

@@ -83,6 +83,7 @@ public class MainFrame {
         //TODO: Remove Col and Row span
         //TODO: Remove labels or promptText
         paneAdd = new GridPane();
+        paneAdd.setAlignment(Pos.TOP_CENTER);
         paneAdd.setVgap(5);
         paneAdd.setHgap(5);
         paneAdd.setPadding(new Insets(5));
@@ -119,6 +120,7 @@ public class MainFrame {
 
         //TODO: Fix format
         paneSearch = new GridPane();
+        paneSearch.setAlignment(Pos.TOP_CENTER);
         paneSearch.setVgap(5);
         paneSearch.setHgap(5);
         paneSearch.setPadding(new Insets(5));
@@ -152,6 +154,7 @@ public class MainFrame {
         paneSearch.add(btnSearch, 0, 6, 2, 1);
 
         paneView = new GridPane();
+        paneView.setAlignment(Pos.TOP_CENTER);
         paneView.setVgap(5);
         paneView.setHgap(5);
         paneView.setPadding(new Insets(5));
@@ -185,6 +188,7 @@ public class MainFrame {
         }
 
         paneEdit = new GridPane();
+        paneEdit.setAlignment(Pos.TOP_CENTER);
         paneEdit.setVgap(5);
         paneEdit.setHgap(5);
         paneEdit.setPadding(new Insets(5));
@@ -220,6 +224,7 @@ public class MainFrame {
         paneEdit.add(lblErrorEdit,0, 5, 3, 1);
 
         paneExport = new GridPane();
+        paneExport.setAlignment(Pos.TOP_CENTER);
         paneExport.setVgap(5);
         paneExport.setHgap(5);
         paneExport.setPadding(new Insets(5));
@@ -227,6 +232,7 @@ public class MainFrame {
         paneExport.add(btnExport, 0, 0);
 
         paneImport = new GridPane();
+        paneImport.setAlignment(Pos.TOP_CENTER);
         paneImport.setVgap(5);
         paneImport.setHgap(5);
         paneImport.setPadding(new Insets(5));

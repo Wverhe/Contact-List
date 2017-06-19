@@ -8,9 +8,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class Main extends Application {
-    //TODO: Move frame releated stuff to its own class
     private static Stage pStage;
-    private TabPane mainFrame;
     private GridPane passwordForm;
     private File password;
 
@@ -23,7 +21,6 @@ public class Main extends Application {
         }else{
             passwordForm = new NewPasswordFrame().getFrame();
         }
-        mainFrame = new MainFrame().getFrame();
 
         primaryStage.setTitle("Contact Book");
         primaryStage.setScene(new Scene(passwordForm, 300, 275));

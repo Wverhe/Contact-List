@@ -27,6 +27,7 @@ public class NewPasswordFrame {
     public NewPasswordFrame(){
         encrypter = new Encrypter();
         frame = new GridPane();
+        frame.setAlignment(Pos.TOP_CENTER);
         frame.setVgap(5);
         frame.setHgap(5);
         frame.setPadding(new Insets(5));
@@ -61,7 +62,7 @@ public class NewPasswordFrame {
                         txtPassword.setText("");
                         txtRepeatPassword.setText("");
                         lblError.setVisible(false);
-                        Main.getPrimaryStage().setScene(new Scene(MainFrame.getFrame(), 300, 275));
+                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 300, 275));
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
