@@ -31,23 +31,23 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    TabPane root;
-    Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
-    GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
+    private TabPane root;
+    private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
+    private GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
-    Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber;
-    Label lblError;
-    TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber;
-    Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit, btnDelete;
+    private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber;
+    private Label lblErrorAdd, lblErrorEdit;
+    private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber;
+    private Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit, btnDelete;
 
-    ArrayList<Person> people;
-    Encrypter en;
-    File contacts;
+    private ArrayList<Person> people;
+    private Encrypter encrypter;
+    private File contacts;
     private int index = -1;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        en = new Encrypter();
+        encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
 
         people = importContactList(contacts);
@@ -80,6 +80,7 @@ public class Main extends Application {
         );
 
         //TODO: Add specialization, social networks, |age|, |location|
+        //TODO: Remove Col and Row span
         paneAdd = new GridPane();
         paneAdd.setVgap(5);
         paneAdd.setHgap(5);
@@ -93,13 +94,13 @@ public class Main extends Application {
         txtEmail = new TextField();
         txtNumber = new TextField();
         btnAdd = new Button("Add Contact");
-        lblError = new Label("Error: Test");
-        lblError.setMinWidth(200);
-        lblError.setAlignment(Pos.CENTER);
-        lblError.setTextFill(Color.web("#800000"));
-        lblError.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
-        lblError.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
-        lblError.setVisible(false);
+        lblErrorAdd = new Label("Error: Test");
+        lblErrorAdd.setMinWidth(200);
+        lblErrorAdd.setAlignment(Pos.CENTER);
+        lblErrorAdd.setTextFill(Color.web("#800000"));
+        lblErrorAdd.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
+        lblErrorAdd.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
+        lblErrorAdd.setVisible(false);
         paneAdd.add(lblFirstName, 0, 0);
         paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
@@ -109,7 +110,7 @@ public class Main extends Application {
         paneAdd.add(lblNumber, 0, 3);
         paneAdd.add(txtNumber, 1, 3, 2, 1);
         paneAdd.add(btnAdd, 1, 4);
-        paneAdd.add(lblError, 0, 5, 3, 1);
+        paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
 
         paneSearch = new GridPane();
         paneSearch.setVgap(5);
@@ -165,6 +166,13 @@ public class Main extends Application {
         btnSave.setMinWidth(75);
         btnDelete = new Button("Delete");
         btnDelete.setMinWidth(75);
+        lblErrorEdit = new Label("Error: Test");
+        lblErrorEdit.setMinWidth(200);
+        lblErrorEdit.setAlignment(Pos.CENTER);
+        lblErrorEdit.setTextFill(Color.web("#800000"));
+        lblErrorEdit.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
+        lblErrorEdit.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
+        lblErrorEdit.setVisible(false);
         paneEdit.add(lblEditFirstName, 0, 0);
         paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
         paneEdit.add(lblEditLastName, 0, 1);
@@ -175,6 +183,7 @@ public class Main extends Application {
         paneEdit.add(txtEditNumber, 1, 3, 2, 1);
         paneEdit.add(btnSave, 1, 4);
         paneEdit.add(btnDelete, 2, 4);
+        paneEdit.add(lblErrorEdit,0, 5, 3, 1);
 
         paneExport = new GridPane();
         paneExport.setVgap(5);
@@ -195,24 +204,24 @@ public class Main extends Application {
         btnAdd.setOnAction(
             e -> {
                 if(txtFirstName.getText().length() == 0) {
-                    lblError.setText("First Name Invalid");
-                    lblError.setVisible(true);
+                    lblErrorAdd.setText("First Name Invalid");
+                    lblErrorAdd.setVisible(true);
                 }else if(txtLastName.getText().length() == 0){
-                    lblError.setText("Last Name Invalid");
-                    lblError.setVisible(true);
+                    lblErrorAdd.setText("Last Name Invalid");
+                    lblErrorAdd.setVisible(true);
                 }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
-                    lblError.setText("Error: Invalid Email");
-                    lblError.setVisible(true);
-                }else if(txtEmail.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
-                    lblError.setText("Error: Invalid Phone Number");
-                    lblError.setVisible(true);
+                    lblErrorAdd.setText("Error: Invalid Email");
+                    lblErrorAdd.setVisible(true);
+                }else if(txtNumber.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
+                    lblErrorAdd.setText("Error: Invalid Phone Number");
+                    lblErrorAdd.setVisible(true);
                 }else{
                     people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
                     txtFirstName.setText("");
                     txtLastName.setText("");
                     txtEmail.setText("");
                     txtNumber.setText("");
-                    lblError.setVisible(false);
+                    lblErrorAdd.setVisible(false);
                 }
             }
         );
@@ -257,10 +266,25 @@ public class Main extends Application {
 
         btnSave.setOnAction(
             e -> {
-                people.get(index).setFirstName(txtEditFirstName.getText());
-                people.get(index).setLastName(txtEditLastName.getText());
-                people.get(index).setEmail(txtEditEmail.getText());
-                people.get(index).setNumber(txtEditNumber.getText());
+                if(txtEditFirstName.getText().length() == 0) {
+                    lblErrorEdit.setText("First Name Invalid");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditLastName.getText().length() == 0){
+                    lblErrorEdit.setText("Last Name Invalid");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditEmail.getText().length() > 0 && !txtEditEmail.getText().contains("@")){
+                    lblErrorEdit.setText("Error: Invalid Email");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
+                    lblErrorEdit.setText("Error: Invalid Phone Number");
+                    lblErrorEdit.setVisible(true);
+                }else{
+                    people.get(index).setFirstName(txtEditFirstName.getText());
+                    people.get(index).setLastName(txtEditLastName.getText());
+                    people.get(index).setEmail(txtEditEmail.getText());
+                    people.get(index).setNumber(txtEditNumber.getText());
+                    lblErrorEdit.setVisible(false);
+                }
             }
         );
 
@@ -317,16 +341,11 @@ public class Main extends Application {
                             StringWriter sw = new StringWriter();
                             StreamResult result2 = new StreamResult(sw);
                             transformer.transform(source, result2);
-                            System.out.println(en.encryptText(sw.toString()));
-                            writer.print(en.encryptText(sw.toString()));
+                            writer.print(encrypter.encryptText(sw.toString()));
                             writer.close();
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-
-                        //StreamResult result = new StreamResult(new File("contact-list.xml"));
-                        //transformer.transform(source, result);
-
                     }
                 } catch (ParserConfigurationException | TransformerException e1) {
                     e1.printStackTrace();
@@ -357,7 +376,7 @@ public class Main extends Application {
             tempContacts = new File("temp-contacts.xml");
             tempContacts.createNewFile();
             writer = new PrintWriter(tempContacts);
-            writer.print(en.decryptText(ciphertext));
+            writer.print(encrypter.decryptText(ciphertext));
             writer.close();
             if(!file.exists() || !tempContacts.exists()){
                 return people;
