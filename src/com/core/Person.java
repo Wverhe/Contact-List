@@ -1,4 +1,4 @@
-package core;
+package com.core;
 
 /**
  * Created by agaspari on 6/7/2017.

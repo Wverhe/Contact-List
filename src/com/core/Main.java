@@ -1,4 +1,4 @@
-package core;
+package com.core;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -22,6 +22,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -35,11 +41,16 @@ public class Main extends Application {
     Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit, btnDelete;
 
     ArrayList<Person> people;
+    Encrypter en;
+    File contacts;
     private int index = -1;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        people = importContactList(new File("contact-list.xml"));
+        en = new Encrypter();
+        contacts = new File("contact-list.wver");
+
+        people = importContactList(contacts);
 
         root = new TabPane();
         root.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -297,9 +308,25 @@ public class Main extends Application {
 
                         TransformerFactory transformerFactory = TransformerFactory.newInstance();
                         Transformer transformer = transformerFactory.newTransformer();
-                        DOMSource source = new DOMSource(doc);
-                        StreamResult result = new StreamResult(new File("contact-list.xml"));
-                        transformer.transform(source, result);
+
+                        try {
+                            File file = new File("contact-list.wver");
+                            file.createNewFile();
+                            PrintWriter writer = new PrintWriter(file);
+                            DOMSource source = new DOMSource(doc);
+                            StringWriter sw = new StringWriter();
+                            StreamResult result2 = new StreamResult(sw);
+                            transformer.transform(source, result2);
+                            System.out.println(en.encryptText(sw.toString()));
+                            writer.print(en.encryptText(sw.toString()));
+                            writer.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        //StreamResult result = new StreamResult(new File("contact-list.xml"));
+                        //transformer.transform(source, result);
+
                     }
                 } catch (ParserConfigurationException | TransformerException e1) {
                     e1.printStackTrace();
@@ -322,24 +349,38 @@ public class Main extends Application {
     }
 
     private ArrayList<Person> importContactList(File file){
+        File tempContacts;
+        PrintWriter writer;
         ArrayList<Person> people = new ArrayList<>();
         try {
-            if(!file.exists()){
+            String ciphertext = readFile(file.getPath(), Charset.defaultCharset());
+            tempContacts = new File("temp-contacts.xml");
+            tempContacts.createNewFile();
+            writer = new PrintWriter(tempContacts);
+            writer.print(en.decryptText(ciphertext));
+            writer.close();
+            if(!file.exists() || !tempContacts.exists()){
                 return people;
             }
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
-
+            Document doc = dBuilder.parse(tempContacts);
             NodeList nList = doc.getElementsByTagName("person");
 
             for(int i = 0; i < nList.getLength(); i++){
                 people.add(new Person(nList.item(i).getChildNodes().item(0).getTextContent(), nList.item(i).getChildNodes().item(1).getTextContent(), nList.item(i).getChildNodes().item(2).getTextContent(), nList.item(i).getChildNodes().item(3).getTextContent()));
             }
+            tempContacts.delete();
         }catch (Exception e) {
             e.printStackTrace();
         }
         return people;
+    }
+
+    private String readFile(String path, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
     }
 
     public static void main(String[] args) {
