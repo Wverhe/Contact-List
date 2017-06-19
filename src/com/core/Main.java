@@ -35,10 +35,12 @@ public class Main extends Application {
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
-    private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber;
+    private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
     private Label lblErrorAdd, lblErrorEdit;
-    private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber;
-    private Button btnAdd, btnExport, btnImport, btnPrevious, btnNext, btnSave, btnEdit, btnDelete;
+    private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
+    private Button btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
+    //TODO: Swap btnNext/btnPreivous words -> btnNextView = btnViewNext
+    //TODO: Potentially remove all informative labels and replace with TextField placeholders
 
     private ArrayList<Person> people;
     private Encrypter encrypter;
@@ -112,10 +114,39 @@ public class Main extends Application {
         paneAdd.add(btnAdd, 1, 4);
         paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
 
+        //TODO: Fix format
         paneSearch = new GridPane();
         paneSearch.setVgap(5);
         paneSearch.setHgap(5);
         paneSearch.setPadding(new Insets(5));
+        lblSearchFirstName = new Label("First Name: ");
+        lblSearchLastName = new Label("Last Name: ");
+        lblSearchEmail = new Label("Email: ");
+        lblSearchNumber = new Label("Phone Number: ");
+        lblSearchResultFirstName = new Label();
+        lblSearchResultLastName = new Label();
+        lblSearchResultEmail = new Label();
+        lblSearchResultNumber = new Label();
+        txtSearch = new TextField();
+        txtSearch.setPromptText("Input First Name");
+        btnPreviousSearch = new Button("Previous");
+        btnPreviousSearch.setMinWidth(75);
+        btnNextSearch = new Button("Next");
+        btnNextSearch.setMinWidth(75);
+        btnSearch = new Button("Search");
+        btnSearch.setMinWidth(167);
+        paneSearch.add(lblSearchFirstName, 0, 0);
+        paneSearch.add(lblSearchResultFirstName, 1, 0, 2, 1);
+        paneSearch.add(lblSearchLastName, 0, 1);
+        paneSearch.add(lblSearchResultLastName, 1, 1, 2, 1);
+        paneSearch.add(lblSearchEmail, 0, 2);
+        paneSearch.add(lblSearchResultEmail, 1, 2, 2, 1);
+        paneSearch.add(lblSearchNumber, 0, 3);
+        paneSearch.add(lblSearchResultNumber, 1, 3, 2, 1);
+        paneSearch.add(btnPreviousSearch, 0, 4);
+        paneSearch.add(btnNextSearch, 1, 4);
+        paneSearch.add(txtSearch, 0, 5, 2, 1);
+        paneSearch.add(btnSearch, 0, 6, 2, 1);
 
         paneView = new GridPane();
         paneView.setVgap(5);
@@ -129,10 +160,10 @@ public class Main extends Application {
         lblResultLastName = new Label();
         lblResultEmail = new Label();
         lblResultNumber = new Label();
-        btnPrevious = new Button("Previous");
-        btnPrevious.setMinWidth(75);
-        btnNext = new Button("Next");
-        btnNext.setMinWidth(75);
+        btnPreviousView = new Button("Previous");
+        btnPreviousView.setMinWidth(75);
+        btnNextView = new Button("Next");
+        btnNextView.setMinWidth(75);
         btnEdit = new Button("Edit");
         btnEdit.setMinWidth(167);
         paneView.add(lblViewFirstName, 0, 0);
@@ -143,8 +174,8 @@ public class Main extends Application {
         paneView.add(lblResultEmail, 1, 2, 2, 1);
         paneView.add(lblViewNumber, 0, 3);
         paneView.add(lblResultNumber, 1, 3, 2, 1);
-        paneView.add(btnPrevious, 0, 4);
-        paneView.add(btnNext, 1, 4);
+        paneView.add(btnPreviousView, 0, 4);
+        paneView.add(btnNextView, 1, 4);
         paneView.add(btnEdit, 0, 5, 2, 1);
         if(people.size() > 0){
             index = 0;
@@ -226,7 +257,7 @@ public class Main extends Application {
             }
         );
 
-        btnNext.setOnAction(
+        btnNextView.setOnAction(
             e -> {
                 if (index == people.size() - 1){
                     index = 0;
@@ -240,7 +271,7 @@ public class Main extends Application {
             }
         );
 
-        btnPrevious.setOnAction(
+        btnPreviousView.setOnAction(
             e -> {
                 if (index == 0){
                     index = people.size() - 1;
