@@ -123,7 +123,6 @@ class MainFrame {
         //TODO: Fix format
         //TODO: Add edit
         //TODO: Add error label
-        //TODO: Fix first click error
         paneSearch = new GridPane();
         paneSearch.setAlignment(Pos.TOP_CENTER);
         paneSearch.setVgap(5);
@@ -271,6 +270,7 @@ class MainFrame {
             }
         );
 
+        //TODO: Add second pass through to check if name contains
         btnSearch.setOnAction(
              e -> {
                  String searchTerm = txtSearch.getText();
@@ -285,6 +285,7 @@ class MainFrame {
                      lblSearchResultLastName.setText(searchPeople.get(0).getLastName());
                      lblSearchResultEmail.setText(searchPeople.get(0).getEmail());
                      lblSearchResultNumber.setText(searchPeople.get(0).getNumber());
+                     searchIndex = 0;
                  }
              }
         );
