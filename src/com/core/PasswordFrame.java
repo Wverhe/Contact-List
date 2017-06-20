@@ -19,14 +19,14 @@ import java.util.Optional;
  * Created by agaspari on 6/19/2017.
  */
 //TODO: Style more.
-public class PasswordFrame {
+class PasswordFrame {
     private GridPane frame;
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
     private Label lblPassword, lblError;
     private Encrypter encrypter;
     private File password;
-    public PasswordFrame(){
+    PasswordFrame(){
         encrypter = new Encrypter();
         password = new File("password.wver");
         frame = new GridPane();
@@ -69,7 +69,7 @@ public class PasswordFrame {
                 alert.setContentText("This process is irreversible, are you sure you want to do this?");
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
+                if (result.isPresent() && result.get() == ButtonType.OK){
                     new File("contact-list.wver").delete();
                     new File("password.wver").delete();
                     Main.getPrimaryStage().setScene(new Scene(new NewPasswordFrame().getFrame(), 300, 275));
@@ -90,7 +90,7 @@ public class PasswordFrame {
         return new String(encoded, encoding);
     }
 
-    public GridPane getFrame(){
+    GridPane getFrame(){
         return frame;
     }
 }

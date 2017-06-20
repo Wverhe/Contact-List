@@ -2,7 +2,6 @@ package com.core;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.io.File;
@@ -27,12 +26,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static Stage getPrimaryStage() {
+    static Stage getPrimaryStage() {
         return pStage;
     }
 
     private void setPrimaryStage(Stage pStage) {
-        this.pStage = pStage;
+        Main.pStage = pStage;
     }
 
     public static void main(String[] args) {

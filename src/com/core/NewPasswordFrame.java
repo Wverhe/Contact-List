@@ -17,14 +17,14 @@ import java.io.IOException;
 /**
  * Created by agaspari on 6/19/2017.
  */
-public class NewPasswordFrame {
+class NewPasswordFrame {
     private GridPane frame;
     private Label lblPassword, lblRepeatPassword, lblError;
     private PasswordField txtPassword, txtRepeatPassword;
     private Button btnSet;
     private Encrypter encrypter;
     private File password;
-    public NewPasswordFrame(){
+    NewPasswordFrame(){
         encrypter = new Encrypter();
         frame = new GridPane();
         frame.setAlignment(Pos.TOP_CENTER);
@@ -79,7 +79,7 @@ public class NewPasswordFrame {
         frame.add(lblError, 0, 3, 3, 1);
     }
 
-    public GridPane getFrame(){
+    GridPane getFrame(){
         return frame;
     }
 }

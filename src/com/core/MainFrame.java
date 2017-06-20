@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by agaspari on 6/19/2017.
  */
-public class MainFrame {
+class MainFrame {
     static TabPane frame;
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
@@ -48,7 +48,7 @@ public class MainFrame {
     private File contacts;
     private int index = -1, searchIndex = -1;
 
-    public MainFrame(){
+    MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
 
