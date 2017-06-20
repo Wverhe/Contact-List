@@ -1,6 +1,7 @@
 package com.core;
 
 import com.core.objects.component.CustomButton;
+import com.core.objects.component.CustomGridPane;
 import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 public class MainFrame {
     static TabPane frame;
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
-    private GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
+    private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
     private Label lblErrorAdd, lblErrorEdit;
@@ -87,11 +88,8 @@ public class MainFrame {
         //TODO: Add specialization, social networks, |age|, |location|
         //TODO: Remove Col and Row span
         //TODO: Remove labels or promptText
-        paneAdd = new GridPane();
-        paneAdd.setAlignment(Pos.TOP_CENTER);
-        paneAdd.setVgap(5);
-        paneAdd.setHgap(5);
-        paneAdd.setPadding(new Insets(5));
+        paneAdd = new CustomGridPane();
+        paneAdd.addColumns(2);
         lblFirstName = new Label("First Name: ");
         lblLastName = new Label("Last Name: ");
         lblEmail = new Label("Email: ");
@@ -104,31 +102,27 @@ public class MainFrame {
         txtEmail.setPromptText("Email");
         txtNumber = new TextField();
         txtNumber.setPromptText("Phone Number");
-        btnAdd = new Button("Add Contact");
-        btnAdd.setMinWidth(130);
+        btnAdd = new CustomButton("Add Contact");
         btnAdd.setTextFill(Color.WHITE);
         btnAdd.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 4px;");
         btnAdd.setCursor(Cursor.HAND);
         lblErrorAdd = new ErrorLabel("Error: Test");
         paneAdd.add(lblFirstName, 0, 0);
-        paneAdd.add(txtFirstName, 1, 0, 2, 1);
+        paneAdd.add(txtFirstName, 1, 0);
         paneAdd.add(lblLastName, 0, 1);
-        paneAdd.add(txtLastName, 1, 1, 2, 1);
+        paneAdd.add(txtLastName, 1, 1);
         paneAdd.add(lblEmail, 0, 2);
-        paneAdd.add(txtEmail, 1, 2, 2, 1);
+        paneAdd.add(txtEmail, 1, 2);
         paneAdd.add(lblNumber, 0, 3);
-        paneAdd.add(txtNumber, 1, 3, 2, 1);
+        paneAdd.add(txtNumber, 1, 3);
         paneAdd.add(btnAdd, 1, 4);
-        paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
+        paneAdd.add(lblErrorAdd, 0, 5, 2, 1);
 
         //TODO: Fix format
         //TODO: Add edit
         //TODO: Add error label
-        paneSearch = new GridPane();
-        paneSearch.setAlignment(Pos.TOP_CENTER);
-        paneSearch.setVgap(5);
-        paneSearch.setHgap(5);
-        paneSearch.setPadding(new Insets(5));
+        paneSearch = new CustomGridPane();
+        paneSearch.addColumns(2);
         lblSearchFirstName = new Label("First Name: ");
         lblSearchLastName = new Label("Last Name: ");
         lblSearchEmail = new Label("Email: ");
@@ -158,11 +152,8 @@ public class MainFrame {
         paneSearch.add(txtSearch, 0, 5, 2, 1);
         paneSearch.add(btnSearch, 0, 6, 2, 1);
 
-        paneView = new GridPane();
-        paneView.setAlignment(Pos.TOP_CENTER);
-        paneView.setVgap(5);
-        paneView.setHgap(5);
-        paneView.setPadding(new Insets(5));
+        paneView = new CustomGridPane();
+        paneView.addColumns(2);
         lblViewFirstName = new Label("First Name: ");
         lblViewLastName = new Label("Last Name: ");
         lblViewEmail = new Label("Email: ");
@@ -192,11 +183,8 @@ public class MainFrame {
             index = 0;
         }
 
-        paneEdit = new GridPane();
-        paneEdit.setAlignment(Pos.TOP_CENTER);
-        paneEdit.setVgap(5);
-        paneEdit.setHgap(5);
-        paneEdit.setPadding(new Insets(5));
+        paneEdit = new CustomGridPane();
+        paneEdit.addColumns(3);
         lblEditFirstName = new Label("First Name: ");
         lblEditLastName = new Label("Last Name: ");
         lblEditEmail = new Label("Email: ");
@@ -222,19 +210,13 @@ public class MainFrame {
         paneEdit.add(btnDelete, 2, 4);
         paneEdit.add(lblErrorEdit,0, 5, 3, 1);
 
-        paneExport = new GridPane();
-        paneExport.setAlignment(Pos.TOP_CENTER);
-        paneExport.setVgap(5);
-        paneExport.setHgap(5);
-        paneExport.setPadding(new Insets(5));
+        paneExport = new CustomGridPane();
+        paneExport.addColumns(1);
         btnExport = new CustomButton("Export");
         paneExport.add(btnExport, 0, 0);
 
-        paneImport = new GridPane();
-        paneImport.setAlignment(Pos.TOP_CENTER);
-        paneImport.setVgap(5);
-        paneImport.setHgap(5);
-        paneImport.setPadding(new Insets(5));
+        paneImport = new CustomGridPane();
+        paneImport.addColumns(1);
         btnImport = new CustomButton("Import");
         paneImport.add(btnImport, 0, 0);
 

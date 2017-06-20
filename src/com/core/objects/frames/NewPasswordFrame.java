@@ -4,6 +4,7 @@ import com.core.Encrypter;
 import com.core.Main;
 import com.core.MainFrame;
 import com.core.objects.component.CustomButton;
+import com.core.objects.component.CustomGridPane;
 import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,7 +21,7 @@ import java.io.IOException;
  * Created by agaspari on 6/19/2017.
  */
 public class NewPasswordFrame {
-    private GridPane frame;
+    private CustomGridPane frame;
     private Label lblPassword, lblRepeatPassword, lblError;
     private PasswordField txtPassword, txtRepeatPassword;
     private Button btnSet;
@@ -28,11 +29,8 @@ public class NewPasswordFrame {
     private File password;
     public NewPasswordFrame(){
         encrypter = new Encrypter();
-        frame = new GridPane();
-        frame.setAlignment(Pos.TOP_CENTER);
-        frame.setVgap(5);
-        frame.setHgap(5);
-        frame.setPadding(new Insets(5));
+        frame = new CustomGridPane();
+        frame.addColumns(3);
         lblPassword = new Label("Password: ");
         lblRepeatPassword = new Label("Repeat Password: ");
         txtPassword = new PasswordField();

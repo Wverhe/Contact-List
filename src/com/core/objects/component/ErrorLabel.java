@@ -13,7 +13,6 @@ import javafx.scene.text.*;
 public class ErrorLabel extends Label {
     public ErrorLabel(String text){
         super(text);
-        //setMinWidth(200);
         setPrefWidth(Double.MAX_VALUE);
         setTextFill(javafx.scene.paint.Color.web("#800000"));
         setAlignment(Pos.CENTER);

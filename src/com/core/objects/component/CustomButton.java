@@ -15,14 +15,10 @@ public class CustomButton extends Button{
         setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 4px;");
         setCursor(Cursor.HAND);
         setOnMouseEntered(
-            e -> {
-                setStyle("-fx-background-color: #45a049");
-            }
+            e -> setStyle("-fx-background-color: #45a049")
         );
         setOnMouseExited(
-            e -> {
-                setStyle("-fx-background-color: #4CAF50;");
-            }
+            e -> setStyle("-fx-background-color: #4CAF50;")
         );
     }
 }

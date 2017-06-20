@@ -4,12 +4,15 @@ import com.core.Encrypter;
 import com.core.Main;
 import com.core.MainFrame;
 import com.core.objects.component.CustomButton;
+import com.core.objects.component.CustomGridPane;
 import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -25,7 +28,7 @@ import java.util.Optional;
  */
 //TODO: Style more.
 public class PasswordFrame {
-    private GridPane frame;
+    private CustomGridPane frame;
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
     private Label lblError;
@@ -34,12 +37,8 @@ public class PasswordFrame {
     public PasswordFrame(){
         encrypter = new Encrypter();
         password = new File("password.wver");
-        frame = new GridPane();
-        frame.setAlignment(Pos.TOP_CENTER);
-        frame.setVgap(5);
-        frame.setHgap(5);
-        frame.setPadding(new Insets(5));
-        frame.setGridLinesVisible(true);
+        frame = new CustomGridPane();
+        frame.addColumns(2);
         txtPassword = new PasswordField();
         txtPassword.setPromptText("Password");
         btnSubmit = new CustomButton("Submit");
