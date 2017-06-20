@@ -1,5 +1,10 @@
-package com.core;
+package com.core.objects.frames;
 
+import com.core.Encrypter;
+import com.core.Main;
+import com.core.MainFrame;
+import com.core.objects.component.CustomButton;
+import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,14 +24,14 @@ import java.util.Optional;
  * Created by agaspari on 6/19/2017.
  */
 //TODO: Style more.
-class PasswordFrame {
+public class PasswordFrame {
     private GridPane frame;
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
-    private Label lblPassword, lblError;
+    private Label lblError;
     private Encrypter encrypter;
     private File password;
-    PasswordFrame(){
+    public PasswordFrame(){
         encrypter = new Encrypter();
         password = new File("password.wver");
         frame = new GridPane();
@@ -34,17 +39,12 @@ class PasswordFrame {
         frame.setVgap(5);
         frame.setHgap(5);
         frame.setPadding(new Insets(5));
-        lblPassword = new Label("Password: ");
+        frame.setGridLinesVisible(true);
         txtPassword = new PasswordField();
-        btnSubmit = new Button("Submit");
-        btnReset = new Button("Reset Data");
-        lblError = new Label("Error: Test");
-        lblError.setMinWidth(200);
-        lblError.setAlignment(Pos.CENTER);
-        lblError.setTextFill(Color.web("#800000"));
-        lblError.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
-        lblError.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
-        lblError.setVisible(false);
+        txtPassword.setPromptText("Password");
+        btnSubmit = new CustomButton("Submit");
+        btnReset = new CustomButton("Reset Data");
+        lblError = new ErrorLabel("Error: Test");
         btnSubmit.setOnAction(
             e -> {
                 try {
@@ -78,11 +78,10 @@ class PasswordFrame {
                 }
             }
         );
-        frame.add(lblPassword, 0, 0);
-        frame.add(txtPassword, 1, 0);
-        frame.add(btnSubmit, 0, 1);
-        frame.add(btnReset, 1, 1);
-        frame.add(lblError, 0, 2, 3, 1);
+        frame.add(txtPassword, 0, 0, 2, 1);
+        frame.add(btnSubmit, 0, 1, 1, 1);
+        frame.add(btnReset, 1, 1, 1, 1);
+        frame.add(lblError, 0, 2, 2, 1);
     }
 
     private String readFile(String path, Charset encoding) throws IOException {
@@ -90,7 +89,7 @@ class PasswordFrame {
         return new String(encoded, encoding);
     }
 
-    GridPane getFrame(){
+    public GridPane getFrame(){
         return frame;
     }
 }

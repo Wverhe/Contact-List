@@ -1,5 +1,10 @@
-package com.core;
+package com.core.objects.frames;
 
+import com.core.Encrypter;
+import com.core.Main;
+import com.core.MainFrame;
+import com.core.objects.component.CustomButton;
+import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -7,9 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,14 +19,14 @@ import java.io.IOException;
 /**
  * Created by agaspari on 6/19/2017.
  */
-class NewPasswordFrame {
+public class NewPasswordFrame {
     private GridPane frame;
     private Label lblPassword, lblRepeatPassword, lblError;
     private PasswordField txtPassword, txtRepeatPassword;
     private Button btnSet;
     private Encrypter encrypter;
     private File password;
-    NewPasswordFrame(){
+    public NewPasswordFrame(){
         encrypter = new Encrypter();
         frame = new GridPane();
         frame.setAlignment(Pos.TOP_CENTER);
@@ -35,15 +37,9 @@ class NewPasswordFrame {
         lblRepeatPassword = new Label("Repeat Password: ");
         txtPassword = new PasswordField();
         txtRepeatPassword = new PasswordField();
-        btnSet = new Button("Set");
+        btnSet = new CustomButton("Set");
         btnSet.setMinWidth(100);
-        lblError = new Label("Error: Test");
-        lblError.setMinWidth(200);
-        lblError.setAlignment(Pos.CENTER);
-        lblError.setTextFill(Color.web("#800000"));
-        lblError.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
-        lblError.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
-        lblError.setVisible(false);
+        lblError = new ErrorLabel("Error: Test");
         btnSet.setOnAction(
             e ->{
                 if(!txtPassword.getText().equals(txtRepeatPassword.getText())){
@@ -79,7 +75,7 @@ class NewPasswordFrame {
         frame.add(lblError, 0, 3, 3, 1);
     }
 
-    GridPane getFrame(){
+    public GridPane getFrame(){
         return frame;
     }
 }

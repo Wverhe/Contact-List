@@ -1,5 +1,7 @@
 package com.core;
 
+import com.core.objects.frames.NewPasswordFrame;
+import com.core.objects.frames.PasswordFrame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
@@ -26,7 +28,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    static Stage getPrimaryStage() {
+    public static Stage getPrimaryStage() {
         return pStage;
     }
 

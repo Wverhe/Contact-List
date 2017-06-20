@@ -1,7 +1,10 @@
 package com.core;
 
+import com.core.objects.component.CustomButton;
+import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -30,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by agaspari on 6/19/2017.
  */
-class MainFrame {
+public class MainFrame {
     static TabPane frame;
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private GridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
@@ -48,7 +51,7 @@ class MainFrame {
     private File contacts;
     private int index = -1, searchIndex = -1;
 
-    MainFrame(){
+    public MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
 
@@ -65,20 +68,20 @@ class MainFrame {
         tabImport = new Tab("Import");
 
         tabView.setOnSelectionChanged(
-                e -> {
-                    if(index != -1){
-                        lblResultFirstName.setText(people.get(index).getFirstName());
-                        lblResultLastName.setText(people.get(index).getLastName());
-                        lblResultEmail.setText(people.get(index).getEmail());
-                        lblResultNumber.setText(people.get(index).getNumber());
-                    }else{
-                        //In case the all elements are deleted from table, the table will show blank.
-                        lblResultFirstName.setText("");
-                        lblResultLastName.setText("");
-                        lblResultEmail.setText("");
-                        lblResultNumber.setText("");
-                    }
+            e -> {
+                if(index != -1){
+                    lblResultFirstName.setText(people.get(index).getFirstName());
+                    lblResultLastName.setText(people.get(index).getLastName());
+                    lblResultEmail.setText(people.get(index).getEmail());
+                    lblResultNumber.setText(people.get(index).getNumber());
+                }else{
+                    //In case the all elements are deleted from table, the table will show blank.
+                    lblResultFirstName.setText("");
+                    lblResultLastName.setText("");
+                    lblResultEmail.setText("");
+                    lblResultNumber.setText("");
                 }
+            }
         );
 
         //TODO: Add specialization, social networks, |age|, |location|
@@ -102,13 +105,11 @@ class MainFrame {
         txtNumber = new TextField();
         txtNumber.setPromptText("Phone Number");
         btnAdd = new Button("Add Contact");
-        lblErrorAdd = new Label("Error: Test");
-        lblErrorAdd.setMinWidth(200);
-        lblErrorAdd.setAlignment(Pos.CENTER);
-        lblErrorAdd.setTextFill(Color.web("#800000"));
-        lblErrorAdd.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
-        lblErrorAdd.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
-        lblErrorAdd.setVisible(false);
+        btnAdd.setMinWidth(130);
+        btnAdd.setTextFill(Color.WHITE);
+        btnAdd.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 4px;");
+        btnAdd.setCursor(Cursor.HAND);
+        lblErrorAdd = new ErrorLabel("Error: Test");
         paneAdd.add(lblFirstName, 0, 0);
         paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
@@ -138,11 +139,11 @@ class MainFrame {
         lblSearchResultNumber = new Label();
         txtSearch = new TextField();
         txtSearch.setPromptText("Input First Name");
-        btnPreviousSearch = new Button("Previous");
+        btnPreviousSearch = new CustomButton("Previous");
         btnPreviousSearch.setMinWidth(75);
-        btnNextSearch = new Button("Next");
+        btnNextSearch = new CustomButton("Next");
         btnNextSearch.setMinWidth(75);
-        btnSearch = new Button("Search");
+        btnSearch = new CustomButton("Search");
         btnSearch.setMinWidth(167);
         paneSearch.add(lblSearchFirstName, 0, 0);
         paneSearch.add(lblSearchResultFirstName, 1, 0, 2, 1);
@@ -170,11 +171,11 @@ class MainFrame {
         lblResultLastName = new Label();
         lblResultEmail = new Label();
         lblResultNumber = new Label();
-        btnPreviousView = new Button("Previous");
+        btnPreviousView = new CustomButton("Previous");
         btnPreviousView.setMinWidth(75);
-        btnNextView = new Button("Next");
+        btnNextView = new CustomButton("Next");
         btnNextView.setMinWidth(75);
-        btnEdit = new Button("Edit");
+        btnEdit = new CustomButton("Edit");
         btnEdit.setMinWidth(167);
         paneView.add(lblViewFirstName, 0, 0);
         paneView.add(lblResultFirstName, 1, 0, 2, 1);
@@ -204,17 +205,11 @@ class MainFrame {
         txtEditLastName = new TextField();
         txtEditEmail = new TextField();
         txtEditNumber = new TextField();
-        btnSave = new Button("Save");
+        btnSave = new CustomButton("Save");
         btnSave.setMinWidth(75);
-        btnDelete = new Button("Delete");
+        btnDelete = new CustomButton("Delete");
         btnDelete.setMinWidth(75);
-        lblErrorEdit = new Label("Error: Test");
-        lblErrorEdit.setMinWidth(200);
-        lblErrorEdit.setAlignment(Pos.CENTER);
-        lblErrorEdit.setTextFill(Color.web("#800000"));
-        lblErrorEdit.setStyle("-fx-border-color: #800000; -fx-background-color: rgba(128, 0, 0, .3)");
-        lblErrorEdit.setFont(Font.font("Tahoma", FontWeight.BOLD, 12));
-        lblErrorEdit.setVisible(false);
+        lblErrorEdit = new ErrorLabel("Error: Test");
         paneEdit.add(lblEditFirstName, 0, 0);
         paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
         paneEdit.add(lblEditLastName, 0, 1);
@@ -232,7 +227,7 @@ class MainFrame {
         paneExport.setVgap(5);
         paneExport.setHgap(5);
         paneExport.setPadding(new Insets(5));
-        btnExport = new Button("Export");
+        btnExport = new CustomButton("Export");
         paneExport.add(btnExport, 0, 0);
 
         paneImport = new GridPane();
@@ -240,7 +235,7 @@ class MainFrame {
         paneImport.setVgap(5);
         paneImport.setHgap(5);
         paneImport.setPadding(new Insets(5));
-        btnImport = new Button("Import");
+        btnImport = new CustomButton("Import");
         paneImport.add(btnImport, 0, 0);
 
         //TODO: Add format verification (Might be Completed)
