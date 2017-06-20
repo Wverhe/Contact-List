@@ -41,16 +41,18 @@ public class MainFrame {
     private Button btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
     //TODO: Swap btnNext/btnPreivous words -> btnNextView = btnViewNext
     //TODO: Potentially remove all informative labels and replace with TextField promptTexts
+    //TODO: Make every tab an object
 
-    private ArrayList<Person> people;
+    private ArrayList<Person> people, searchPeople; //TODO: Change this name? lol
     private Encrypter encrypter;
     private File contacts;
-    private int index = -1;
+    private int index = -1, searchIndex = -1;
 
     public MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
 
+        searchPeople = new ArrayList<>();
         people = importContactList(contacts);
         frame = new TabPane();
         frame.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -119,6 +121,9 @@ public class MainFrame {
         paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
 
         //TODO: Fix format
+        //TODO: Add edit
+        //TODO: Add error label
+        //TODO: Fix first click error
         paneSearch = new GridPane();
         paneSearch.setAlignment(Pos.TOP_CENTER);
         paneSearch.setVgap(5);
@@ -242,32 +247,83 @@ public class MainFrame {
         //TODO: Add format verification (Might be Completed)
         //TODO: Find flow for unknown email/number
         btnAdd.setOnAction(
-                e -> {
-                    if(txtFirstName.getText().length() == 0) {
-                        lblErrorAdd.setText("Error: Invalid First Name.");
-                        lblErrorAdd.setVisible(true);
-                    }else if(txtLastName.getText().length() == 0){
-                        lblErrorAdd.setText("Error: Invalid Last Name.");
-                        lblErrorAdd.setVisible(true);
-                    }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
-                        lblErrorAdd.setText("Error: Invalid Email.");
-                        lblErrorAdd.setVisible(true);
-                    }else if(txtNumber.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
-                        lblErrorAdd.setText("Error: Invalid Phone Number.");
-                        lblErrorAdd.setVisible(true);
-                    }else{
-                        people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
-                        txtFirstName.setText("");
-                        txtLastName.setText("");
-                        txtEmail.setText("");
-                        txtNumber.setText("");
-                        lblErrorAdd.setVisible(false);
-                    }
+            e -> {
+                if(txtFirstName.getText().length() == 0) {
+                    lblErrorAdd.setText("Error: Invalid First Name.");
+                    lblErrorAdd.setVisible(true);
+                }else if(txtLastName.getText().length() == 0){
+                    lblErrorAdd.setText("Error: Invalid Last Name.");
+                    lblErrorAdd.setVisible(true);
+                }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
+                    lblErrorAdd.setText("Error: Invalid Email.");
+                    lblErrorAdd.setVisible(true);
+                }else if(txtNumber.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
+                    lblErrorAdd.setText("Error: Invalid Phone Number.");
+                    lblErrorAdd.setVisible(true);
+                }else{
+                    people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
+                    txtFirstName.setText("");
+                    txtLastName.setText("");
+                    txtEmail.setText("");
+                    txtNumber.setText("");
+                    lblErrorAdd.setVisible(false);
                 }
+            }
+        );
+
+        btnSearch.setOnAction(
+             e -> {
+                 String searchTerm = txtSearch.getText();
+                 searchPeople.clear();
+                 for(Person aPeople : people){
+                    if(aPeople.getFirstName().equalsIgnoreCase(searchTerm)){
+                        searchPeople.add(aPeople);
+                    }
+                 }
+                 if(searchPeople.size() > 0){
+                     lblSearchResultFirstName.setText(searchPeople.get(0).getFirstName());
+                     lblSearchResultLastName.setText(searchPeople.get(0).getLastName());
+                     lblSearchResultEmail.setText(searchPeople.get(0).getEmail());
+                     lblSearchResultNumber.setText(searchPeople.get(0).getNumber());
+                 }
+             }
+        );
+
+        btnNextSearch.setOnAction(
+            e -> {
+                if(searchPeople.size() > 0){
+                    if (searchIndex == searchPeople.size() - 1){
+                        searchIndex = 0;
+                    } else {
+                        searchIndex += 1;
+                    }
+                    lblSearchResultFirstName.setText(searchPeople.get(searchIndex).getFirstName());
+                    lblSearchResultLastName.setText(searchPeople.get(searchIndex).getLastName());
+                    lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
+                    lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
+                }
+            }
+        );
+
+        btnPreviousSearch.setOnAction(
+            e -> {
+                if(searchPeople.size() > 0){
+                    if (searchIndex == 0) {
+                        searchIndex = searchPeople.size() - 1;
+                    } else {
+                        searchIndex -= 1;
+                    }
+                    lblSearchResultFirstName.setText(searchPeople.get(searchIndex).getFirstName());
+                    lblSearchResultLastName.setText(searchPeople.get(searchIndex).getLastName());
+                    lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
+                    lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
+                }
+            }
         );
 
         btnNextView.setOnAction(
-                e -> {
+            e -> {
+                if(people.size() > 0){
                     if (index == people.size() - 1){
                         index = 0;
                     } else {
@@ -278,11 +334,13 @@ public class MainFrame {
                     lblResultEmail.setText(people.get(index).getEmail());
                     lblResultNumber.setText(people.get(index).getNumber());
                 }
+            }
         );
 
         btnPreviousView.setOnAction(
-                e -> {
-                    if (index == 0){
+            e -> {
+                if(people.size() > 0) {
+                    if (index == 0) {
                         index = people.size() - 1;
                     } else {
                         index -= 1;
@@ -292,107 +350,108 @@ public class MainFrame {
                     lblResultEmail.setText(people.get(index).getEmail());
                     lblResultNumber.setText(people.get(index).getNumber());
                 }
+            }
         );
 
         btnEdit.setOnAction(
-                e -> {
-                    txtEditFirstName.setText(lblResultFirstName.getText());
-                    txtEditLastName.setText(lblResultLastName.getText());
-                    txtEditEmail.setText(lblResultEmail.getText());
-                    txtEditNumber.setText(lblResultNumber.getText());
-                    frame.getSelectionModel().select(tabEdit);
-                }
+            e -> {
+                txtEditFirstName.setText(lblResultFirstName.getText());
+                txtEditLastName.setText(lblResultLastName.getText());
+                txtEditEmail.setText(lblResultEmail.getText());
+                txtEditNumber.setText(lblResultNumber.getText());
+                frame.getSelectionModel().select(tabEdit);
+            }
         );
 
         btnSave.setOnAction(
-                e -> {
-                    if(txtEditFirstName.getText().length() == 0) {
-                        lblErrorEdit.setText("Error: Invalid First Name.");
-                        lblErrorEdit.setVisible(true);
-                    }else if(txtEditLastName.getText().length() == 0){
-                        lblErrorEdit.setText("Error: Invalid Last Name.");
-                        lblErrorEdit.setVisible(true);
-                    }else if(txtEditEmail.getText().length() > 0 && !txtEditEmail.getText().contains("@")){
-                        lblErrorEdit.setText("Error: Invalid Email.");
-                        lblErrorEdit.setVisible(true);
-                    }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
-                        lblErrorEdit.setText("Error: Invalid Phone Number.");
-                        lblErrorEdit.setVisible(true);
-                    }else{
-                        people.get(index).setFirstName(txtEditFirstName.getText());
-                        people.get(index).setLastName(txtEditLastName.getText());
-                        people.get(index).setEmail(txtEditEmail.getText());
-                        people.get(index).setNumber(txtEditNumber.getText());
-                        lblErrorEdit.setVisible(false);
-                    }
+            e -> {
+                if(txtEditFirstName.getText().length() == 0) {
+                    lblErrorEdit.setText("Error: Invalid First Name.");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditLastName.getText().length() == 0){
+                    lblErrorEdit.setText("Error: Invalid Last Name.");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditEmail.getText().length() > 0 && !txtEditEmail.getText().contains("@")){
+                    lblErrorEdit.setText("Error: Invalid Email.");
+                    lblErrorEdit.setVisible(true);
+                }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
+                    lblErrorEdit.setText("Error: Invalid Phone Number.");
+                    lblErrorEdit.setVisible(true);
+                }else{
+                    people.get(index).setFirstName(txtEditFirstName.getText());
+                    people.get(index).setLastName(txtEditLastName.getText());
+                    people.get(index).setEmail(txtEditEmail.getText());
+                    people.get(index).setNumber(txtEditNumber.getText());
+                    lblErrorEdit.setVisible(false);
                 }
+            }
         );
 
         btnDelete.setOnAction(
-                e -> {
-                    //TODO: Add confirmation
-                    //TODO: Find Blank Error
-                    if(index != -1){
-                        people.remove(index);
-                        index--;
-                        txtEditFirstName.setText("");
-                        txtEditLastName.setText("");
-                        txtEditEmail.setText("");
-                        txtEditNumber.setText("");
-                        frame.getSelectionModel().select(tabView);
-                    }
+            e -> {
+                //TODO: Add confirmation
+                //TODO: Find Blank Error
+                if(index != -1){
+                    people.remove(index);
+                    index--;
+                    txtEditFirstName.setText("");
+                    txtEditLastName.setText("");
+                    txtEditEmail.setText("");
+                    txtEditNumber.setText("");
+                    frame.getSelectionModel().select(tabView);
                 }
+            }
         );
 
         btnExport.setOnAction(
-                e -> {
-                    try {
-                        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-                        Document doc = docBuilder.newDocument();
+            e -> {
+                try {
+                    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                    Document doc = docBuilder.newDocument();
 
-                        Element rootElement = doc.createElement("people");
-                        doc.appendChild(rootElement);
+                    Element rootElement = doc.createElement("people");
+                    doc.appendChild(rootElement);
 
-                        for (Person aPeople : people) {
-                            Element person = doc.createElement("person");
-                            Element firstName = doc.createElement("first-name");
-                            firstName.appendChild(doc.createTextNode(aPeople.getFirstName()));
-                            Element lastName = doc.createElement("last-name");
-                            lastName.appendChild(doc.createTextNode(aPeople.getLastName()));
-                            Element email = doc.createElement("email");
-                            email.appendChild(doc.createTextNode(aPeople.getEmail()));
-                            Element number = doc.createElement("phone-number");
-                            number.appendChild(doc.createTextNode(aPeople.getNumber()));
-                            person.appendChild(firstName);
-                            person.appendChild(lastName);
-                            person.appendChild(email);
-                            person.appendChild(number);
-                            rootElement.appendChild(person);
+                    for (Person aPeople : people) {
+                        Element person = doc.createElement("person");
+                        Element firstName = doc.createElement("first-name");
+                        firstName.appendChild(doc.createTextNode(aPeople.getFirstName()));
+                        Element lastName = doc.createElement("last-name");
+                        lastName.appendChild(doc.createTextNode(aPeople.getLastName()));
+                        Element email = doc.createElement("email");
+                        email.appendChild(doc.createTextNode(aPeople.getEmail()));
+                        Element number = doc.createElement("phone-number");
+                        number.appendChild(doc.createTextNode(aPeople.getNumber()));
+                        person.appendChild(firstName);
+                        person.appendChild(lastName);
+                        person.appendChild(email);
+                        person.appendChild(number);
+                        rootElement.appendChild(person);
 
-                            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                            Transformer transformer = transformerFactory.newTransformer();
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = transformerFactory.newTransformer();
 
-                            try {
-                                File file = new File("contact-list.wver");
-                                file.createNewFile();
+                        try {
+                            File file = new File("contact-list.wver");
+                            file.createNewFile();
 
-                                //TODO: Potentially change to FileWriter
-                                PrintWriter writer = new PrintWriter(file);
-                                DOMSource source = new DOMSource(doc);
-                                StringWriter sw = new StringWriter();
-                                StreamResult result2 = new StreamResult(sw);
-                                transformer.transform(source, result2);
-                                writer.print(encrypter.encryptText(sw.toString()));
-                                writer.close();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
+                            //TODO: Potentially change to FileWriter
+                            PrintWriter writer = new PrintWriter(file);
+                            DOMSource source = new DOMSource(doc);
+                            StringWriter sw = new StringWriter();
+                            StreamResult result2 = new StreamResult(sw);
+                            transformer.transform(source, result2);
+                            writer.print(encrypter.encryptText(sw.toString()));
+                            writer.close();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
                         }
-                    } catch (ParserConfigurationException | TransformerException e1) {
-                        e1.printStackTrace();
                     }
+                } catch (ParserConfigurationException | TransformerException e1) {
+                    e1.printStackTrace();
                 }
+            }
         );
 
         tabAdd.setContent(paneAdd);
