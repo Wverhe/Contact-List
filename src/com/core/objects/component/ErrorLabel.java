@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.*;
 import javafx.scene.text.*;
 
-
 /**
  * Created by agaspari on 6/20/2017.
  */

@@ -1,16 +1,7 @@
 package com.core;
 
-import com.core.objects.component.CustomButton;
-import com.core.objects.component.CustomGridPane;
-import com.core.objects.component.ErrorLabel;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
+import com.core.objects.component.*;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -39,10 +30,11 @@ public class MainFrame {
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
+    //TODO: Set all labels alignment to center and PrefWidth to Max_Double
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
-    private Label lblErrorAdd, lblErrorEdit;
+    private ErrorLabel lblErrorAdd, lblErrorEdit;
     private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
-    private Button btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
+    private CustomButton btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
     //TODO: Swap btnNext/btnPreivous words -> btnNextView = btnViewNext
     //TODO: Potentially remove all informative labels and replace with TextField promptTexts
     //TODO: Make every tab an object
@@ -60,6 +52,7 @@ public class MainFrame {
         people = importContactList(contacts);
         frame = new TabPane();
         frame.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        frame.setStyle(" -fx-background-color: #3c3c3c;");
 
         tabAdd = new Tab("Add");
         tabSearch = new Tab("Search");
@@ -86,14 +79,13 @@ public class MainFrame {
         );
 
         //TODO: Add specialization, social networks, |age|, |location|
-        //TODO: Remove Col and Row span
         //TODO: Remove labels or promptText
         paneAdd = new CustomGridPane();
-        paneAdd.addColumns(2);
-        lblFirstName = new Label("First Name: ");
-        lblLastName = new Label("Last Name: ");
-        lblEmail = new Label("Email: ");
-        lblNumber = new Label("Number: ");
+        paneAdd.addColumns(3);
+        lblFirstName = new CustomLabel("First Name: ");
+        lblLastName = new CustomLabel("Last Name: ");
+        lblEmail = new CustomLabel("Email: ");
+        lblNumber = new CustomLabel("Number: ");
         txtFirstName = new TextField();
         txtFirstName.setPromptText("First Name");
         txtLastName = new TextField();
@@ -103,34 +95,31 @@ public class MainFrame {
         txtNumber = new TextField();
         txtNumber.setPromptText("Phone Number");
         btnAdd = new CustomButton("Add Contact");
-        btnAdd.setTextFill(Color.WHITE);
-        btnAdd.setStyle("-fx-background-color: #4CAF50; -fx-border-radius: 4px;");
-        btnAdd.setCursor(Cursor.HAND);
         lblErrorAdd = new ErrorLabel("Error: Test");
         paneAdd.add(lblFirstName, 0, 0);
-        paneAdd.add(txtFirstName, 1, 0);
+        paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
-        paneAdd.add(txtLastName, 1, 1);
+        paneAdd.add(txtLastName, 1, 1, 2, 1);
         paneAdd.add(lblEmail, 0, 2);
-        paneAdd.add(txtEmail, 1, 2);
+        paneAdd.add(txtEmail, 1, 2, 2, 1);
         paneAdd.add(lblNumber, 0, 3);
-        paneAdd.add(txtNumber, 1, 3);
-        paneAdd.add(btnAdd, 1, 4);
-        paneAdd.add(lblErrorAdd, 0, 5, 2, 1);
+        paneAdd.add(txtNumber, 1, 3, 2, 1);
+        paneAdd.add(btnAdd, 1, 4, 2, 1);
+        paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
 
         //TODO: Fix format
         //TODO: Add edit
         //TODO: Add error label
         paneSearch = new CustomGridPane();
         paneSearch.addColumns(2);
-        lblSearchFirstName = new Label("First Name: ");
-        lblSearchLastName = new Label("Last Name: ");
-        lblSearchEmail = new Label("Email: ");
-        lblSearchNumber = new Label("Phone Number: ");
-        lblSearchResultFirstName = new Label();
-        lblSearchResultLastName = new Label();
-        lblSearchResultEmail = new Label();
-        lblSearchResultNumber = new Label();
+        lblSearchFirstName = new CustomLabel("First Name: ");
+        lblSearchLastName = new CustomLabel("Last Name: ");
+        lblSearchEmail = new CustomLabel("Email: ");
+        lblSearchNumber = new CustomLabel("Phone Number: ");
+        lblSearchResultFirstName = new CustomLabel("");
+        lblSearchResultLastName = new CustomLabel("");
+        lblSearchResultEmail = new CustomLabel("");
+        lblSearchResultNumber = new CustomLabel("");
         txtSearch = new TextField();
         txtSearch.setPromptText("Input First Name");
         btnPreviousSearch = new CustomButton("Previous");
@@ -154,18 +143,16 @@ public class MainFrame {
 
         paneView = new CustomGridPane();
         paneView.addColumns(2);
-        lblViewFirstName = new Label("First Name: ");
-        lblViewLastName = new Label("Last Name: ");
-        lblViewEmail = new Label("Email: ");
-        lblViewNumber = new Label("Phone Number: ");
-        lblResultFirstName = new Label();
-        lblResultLastName = new Label();
-        lblResultEmail = new Label();
-        lblResultNumber = new Label();
+        lblViewFirstName = new CustomLabel("First Name: ");
+        lblViewLastName = new CustomLabel("Last Name: ");
+        lblViewEmail = new CustomLabel("Email: ");
+        lblViewNumber = new CustomLabel("Phone Number: ");
+        lblResultFirstName = new CustomLabel("");
+        lblResultLastName = new CustomLabel("");
+        lblResultEmail = new CustomLabel("");
+        lblResultNumber = new CustomLabel("");
         btnPreviousView = new CustomButton("Previous");
-        btnPreviousView.setMinWidth(75);
         btnNextView = new CustomButton("Next");
-        btnNextView.setMinWidth(75);
         btnEdit = new CustomButton("Edit");
         btnEdit.setMinWidth(167);
         paneView.add(lblViewFirstName, 0, 0);
@@ -185,10 +172,10 @@ public class MainFrame {
 
         paneEdit = new CustomGridPane();
         paneEdit.addColumns(3);
-        lblEditFirstName = new Label("First Name: ");
-        lblEditLastName = new Label("Last Name: ");
-        lblEditEmail = new Label("Email: ");
-        lblEditNumber = new Label("Number: ");
+        lblEditFirstName = new CustomLabel("First Name: ");
+        lblEditLastName = new CustomLabel("Last Name: ");
+        lblEditEmail = new CustomLabel("Email: ");
+        lblEditNumber = new CustomLabel("Number: ");
         txtEditFirstName = new TextField();
         txtEditLastName = new TextField();
         txtEditEmail = new TextField();

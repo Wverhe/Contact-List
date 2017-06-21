@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="contactlist-javafx:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/contactlist_javafx_jar</output-path>
+    <root id="archive" name="contactlist-javafx.jar">
+      <element id="module-output" name="contactlist-javafx" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/resources/javax.mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/resources/activation.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -5,6 +5,7 @@ import com.core.Main;
 import com.core.MainFrame;
 import com.core.objects.component.CustomButton;
 import com.core.objects.component.CustomGridPane;
+import com.core.objects.component.CustomLabel;
 import com.core.objects.component.ErrorLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,7 +23,8 @@ import java.io.IOException;
  */
 public class NewPasswordFrame {
     private CustomGridPane frame;
-    private Label lblPassword, lblRepeatPassword, lblError;
+    private CustomLabel lblPassword, lblRepeatPassword;
+    private ErrorLabel lblError;
     private PasswordField txtPassword, txtRepeatPassword;
     private Button btnSet;
     private Encrypter encrypter;
@@ -30,9 +32,9 @@ public class NewPasswordFrame {
     public NewPasswordFrame(){
         encrypter = new Encrypter();
         frame = new CustomGridPane();
-        frame.addColumns(3);
-        lblPassword = new Label("Password: ");
-        lblRepeatPassword = new Label("Repeat Password: ");
+        frame.addColumns(2);
+        lblPassword = new CustomLabel("Password: ");
+        lblRepeatPassword = new CustomLabel("Repeat Password: ");
         txtPassword = new PasswordField();
         txtRepeatPassword = new PasswordField();
         btnSet = new CustomButton("Set");
@@ -70,7 +72,7 @@ public class NewPasswordFrame {
         frame.add(txtPassword, 1, 0);
         frame.add(txtRepeatPassword, 1 ,1);
         frame.add(btnSet, 1, 2);
-        frame.add(lblError, 0, 3, 3, 1);
+        frame.add(lblError, 0, 3, 2, 1);
     }
 
     public GridPane getFrame(){

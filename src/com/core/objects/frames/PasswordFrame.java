@@ -31,7 +31,7 @@ public class PasswordFrame {
     private CustomGridPane frame;
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
-    private Label lblError;
+    private ErrorLabel lblError;
     private Encrypter encrypter;
     private File password;
     public PasswordFrame(){
@@ -48,7 +48,9 @@ public class PasswordFrame {
             e -> {
                 try {
                     if(encrypter.decryptText(readFile(password.getPath(), Charset.defaultCharset())).equals(txtPassword.getText())){
-                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 300, 275));
+                        Scene scene = new Scene(new MainFrame().getFrame(), 300, 275);
+                        scene.getStylesheets().add("/resources/stylesheet.css");
+                        Main.getPrimaryStage().setScene(scene);
                         lblError.setVisible(false);
                     }else{
                         lblError.setText("Error: Invalid Password.");
