@@ -17,10 +17,16 @@ public class CustomButton extends Button{
         setStyle("-fx-background-color: #1d8893; -fx-border-radius: 4px;");
         setCursor(Cursor.HAND);
         setOnMouseEntered(
-            e -> setStyle("-fx-background-color: #27b6c4")
+            e -> {
+                setStyle("-fx-background-color: #27b6c4");
+                e.consume();
+            }
         );
         setOnMouseExited(
-            e -> setStyle("-fx-background-color: #1d8893;")
+            e -> {
+                setStyle("-fx-background-color: #1d8893;");
+                e.consume();
+            }
         );
     }
 }

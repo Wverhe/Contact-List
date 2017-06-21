@@ -5,7 +5,7 @@ import com.core.Main;
 import com.core.MainFrame;
 import com.core.objects.component.CustomButton;
 import com.core.objects.component.CustomGridPane;
-import com.core.objects.component.ErrorLabel;
+import com.core.objects.component.InfoLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -31,7 +31,7 @@ public class PasswordFrame {
     private CustomGridPane frame;
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
-    private ErrorLabel lblError;
+    private InfoLabel lblInfo;
     private Encrypter encrypter;
     private File password;
     public PasswordFrame(){
@@ -39,11 +39,12 @@ public class PasswordFrame {
         password = new File("password.wver");
         frame = new CustomGridPane();
         frame.addColumns(2);
+        frame.setStyle(" -fx-background-color: #3c3c3c;");
         txtPassword = new PasswordField();
         txtPassword.setPromptText("Password");
         btnSubmit = new CustomButton("Submit");
         btnReset = new CustomButton("Reset Data");
-        lblError = new ErrorLabel("Error: Test");
+        lblInfo = new InfoLabel("Error: Test");
         btnSubmit.setOnAction(
             e -> {
                 try {
@@ -51,14 +52,14 @@ public class PasswordFrame {
                         Scene scene = new Scene(new MainFrame().getFrame(), 300, 275);
                         scene.getStylesheets().add("/resources/stylesheet.css");
                         Main.getPrimaryStage().setScene(scene);
-                        lblError.setVisible(false);
+                        lblInfo.dismiss();
                     }else{
-                        lblError.setText("Error: Invalid Password.");
-                        lblError.setVisible(true);
+                        lblInfo.showError("Error: Invalid Password.");
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                e.consume();
             }
         );
 
@@ -77,12 +78,13 @@ public class PasswordFrame {
                 } else {
                     //Do Nothing.
                 }
+                e.consume();
             }
         );
         frame.add(txtPassword, 0, 0, 2, 1);
         frame.add(btnSubmit, 0, 1, 1, 1);
         frame.add(btnReset, 1, 1, 1, 1);
-        frame.add(lblError, 0, 2, 2, 1);
+        frame.add(lblInfo, 0, 2, 2, 1);
     }
 
     private String readFile(String path, Charset encoding) throws IOException {

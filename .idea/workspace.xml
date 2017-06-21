@@ -7,22 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/contactlist_javafx_jar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/core/objects/component/CustomLabel.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/entity/CustomButton.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/activation.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/resources/javax.mail.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/core/objects/entity/CustomButton.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/component/ErrorLabel.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/NewPasswordFrame.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/PasswordFrame.class" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java" afterPath="$PROJECT_DIR$/src/com/core/objects/component/InfoLabel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/MainFrame.class" afterPath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/MainFrame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/component/CustomButton.class" afterPath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/component/CustomButton.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/component/ErrorLabel.class" afterPath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/component/ErrorLabel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/NewPasswordFrame.class" afterPath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/NewPasswordFrame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/PasswordFrame.class" afterPath="$PROJECT_DIR$/out/production/contactlist-javafx/com/core/objects/frames/PasswordFrame.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/core/MainFrame.java" afterPath="$PROJECT_DIR$/src/com/core/MainFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java" afterPath="$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java" afterPath="$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java" afterPath="$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java" afterPath="$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java" />
     </list>
@@ -88,24 +80,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MainFrame.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/core/MainFrame.java">
+      <file leaf-file-name="InfoLabel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/InfoLabel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1071">
-              <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+            <state relative-caret-position="219">
+              <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#1084#1085#0" expanded="true" />
+                <element signature="e#1117#1118#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CustomButton.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java">
+      <file leaf-file-name="MainFrame.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/core/MainFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="19" column="56" lean-forward="false" selection-start-line="19" selection-start-column="56" selection-end-line="19" selection-end-column="56" />
-              <folding />
+            <state relative-caret-position="-1883">
+              <caret line="338" column="71" lean-forward="true" selection-start-line="338" selection-start-column="71" selection-end-line="338" selection-end-column="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -113,11 +108,19 @@
       <file leaf-file-name="CustomLabel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomLabel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="31" lean-forward="false" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CustomButton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -145,11 +148,9 @@
       <file leaf-file-name="PasswordFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
-              <caret line="52" column="63" lean-forward="false" selection-start-line="52" selection-start-column="63" selection-end-line="52" selection-end-column="63" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="56">
+              <caret line="6" column="49" lean-forward="false" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -157,8 +158,20 @@
       <file leaf-file-name="NewPasswordFrame.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="23" />
+            <state relative-caret-position="-61">
+              <caret line="58" column="37" lean-forward="true" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Encrypter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/core/Encrypter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -175,37 +188,40 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>allignment</find>
-      <find>alignm</find>
-      <find>alignmen</find>
-      <find>alig</find>
-      <find>ali</find>
-      <find>allig</find>
-      <find>alli</find>
-      <find>alln</find>
-      <find>all</find>
-      <find>al</find>
-      <find>alin</find>
-      <find>align</find>
-      <find>l</find>
-      <find>lbl</find>
-      <find>lblErrorAdd</find>
-      <find>allign</find>
-      <find>alignment</find>
-      <find>C</find>
-      <find>RI</find>
-      <find>RIGH</find>
-      <find>RIGHT</find>
-      <find>.</find>
-      <find>TODO</find>
-      <find>fon</find>
-      <find>font</find>
-      <find>set</find>
-      <find>setTextFi</find>
-      <find>setTextFil</find>
-      <find>setTextFill</find>
+      <find>btnA</find>
+      <find>btnAd</find>
       <find>btnAdd</find>
+      <find>btnAdd.on</find>
+      <find>btnAdd.o</find>
+      <find>btnAdd.</find>
+      <find>btnAdd.s</find>
+      <find>btnAdd.set</find>
+      <find>successf</find>
+      <find>successfu</find>
+      <find>successful</find>
+      <find>successfully</find>
+      <find>successfully</find>
+      <find>sucessfully</find>
+      <find>s</find>
+      <find>suc</find>
+      <find>succ</find>
+      <find>succes</find>
+      <find>success</find>
+      <find>S</find>
+      <find>Success</find>
+      <find>a</find>
+      <find>added</find>
+      <find />
+      <find>e</find>
+      <find>e -</find>
+      <find>lblInfoAdd</find>
+      <find>e</find>
+      <find>e -&gt;</find>
+      <find>e -&gt;</find>
     </findStrings>
+    <dirStrings>
+      <dir>C:\Program Files\Java\jdk1.8.0_131\jre\lib\ext\jfxrt.jar!\javafx\scene\paint</dir>
+    </dirStrings>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -239,21 +255,22 @@
         <option value="$PROJECT_DIR$/src/com/core/SendEmail.java" />
         <option value="$PROJECT_DIR$/src/com/core/objects/entity/ErrorLabel.java" />
         <option value="$PROJECT_DIR$/src/com/core/objects/component/CustomGridPane.java" />
-        <option value="$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java" />
-        <option value="$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java" />
         <option value="$PROJECT_DIR$/src/com/core/objects/component/CustomLabel.java" />
         <option value="$PROJECT_DIR$/src/com/core/Main.java" />
         <option value="$PROJECT_DIR$/src/com/core/objects/component/CustomTab.java" />
-        <option value="$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java" />
-        <option value="$PROJECT_DIR$/src/com/core/MainFrame.java" />
         <option value="$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java" />
+        <option value="$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java" />
+        <option value="$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java" />
+        <option value="$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java" />
+        <option value="$PROJECT_DIR$/src/com/core/objects/component/InfoLabel.java" />
+        <option value="$PROJECT_DIR$/src/com/core/MainFrame.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1745" />
-    <option name="y" value="121" />
+    <option name="x" value="1632" />
+    <option name="y" value="21" />
     <option name="width" value="1145" />
     <option name="height" value="666" />
   </component>
@@ -691,19 +708,18 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1745" y="121" width="1145" height="666" extended-state="0" />
-    <editor active="true" />
+    <frame x="1632" y="21" width="1145" height="666" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1981982" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19784173" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42266187" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42625898" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -916,13 +932,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/Encrypter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="681">
-          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/core/SendEmail.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-237">
@@ -962,14 +971,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/ErrorLabel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="18" column="51" lean-forward="false" selection-start-line="18" selection-start-column="45" selection-end-line="18" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/core/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -986,34 +987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="25" column="23" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
-          <caret line="52" column="63" lean-forward="false" selection-start-line="52" selection-start-column="63" selection-end-line="52" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomLabel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="31" lean-forward="false" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomTab.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -1022,21 +995,66 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/MainFrame.java">
+    <entry file="file://$PROJECT_DIR$/src/com/core/Encrypter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1071">
-          <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+        <state relative-caret-position="472">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomLabel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/PasswordFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="6" column="49" lean-forward="false" selection-start-line="6" selection-start-column="49" selection-end-line="6" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/core/objects/frames/NewPasswordFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-61">
+          <caret line="58" column="37" lean-forward="true" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/CustomButton.java">
+    <entry file="file://$PROJECT_DIR$/src/com/core/objects/component/InfoLabel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="19" column="56" lean-forward="false" selection-start-line="19" selection-start-column="56" selection-end-line="19" selection-end-column="56" />
-          <folding />
+        <state relative-caret-position="219">
+          <caret line="28" column="7" lean-forward="true" selection-start-line="28" selection-start-column="7" selection-end-line="28" selection-end-column="7" />
+          <folding>
+            <element signature="e#1084#1085#0" expanded="true" />
+            <element signature="e#1117#1118#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/core/MainFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1883">
+          <caret line="338" column="71" lean-forward="true" selection-start-line="338" selection-start-column="71" selection-end-line="338" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

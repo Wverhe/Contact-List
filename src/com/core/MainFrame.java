@@ -30,9 +30,9 @@ public class MainFrame {
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
-    //TODO: Set all labels alignment to center and PrefWidth to Max_Double
+
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
-    private ErrorLabel lblErrorAdd, lblErrorEdit;
+    private InfoLabel lblInfoAdd, lblInfoEdit;
     private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
     private CustomButton btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
     //TODO: Swap btnNext/btnPreivous words -> btnNextView = btnViewNext
@@ -47,7 +47,6 @@ public class MainFrame {
     public MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
-
         searchPeople = new ArrayList<>();
         people = importContactList(contacts);
         frame = new TabPane();
@@ -75,6 +74,7 @@ public class MainFrame {
                     lblResultEmail.setText("");
                     lblResultNumber.setText("");
                 }
+                e.consume();
             }
         );
 
@@ -95,7 +95,7 @@ public class MainFrame {
         txtNumber = new TextField();
         txtNumber.setPromptText("Phone Number");
         btnAdd = new CustomButton("Add Contact");
-        lblErrorAdd = new ErrorLabel("Error: Test");
+        lblInfoAdd = new InfoLabel("Error: Test");
         paneAdd.add(lblFirstName, 0, 0);
         paneAdd.add(txtFirstName, 1, 0, 2, 1);
         paneAdd.add(lblLastName, 0, 1);
@@ -105,7 +105,7 @@ public class MainFrame {
         paneAdd.add(lblNumber, 0, 3);
         paneAdd.add(txtNumber, 1, 3, 2, 1);
         paneAdd.add(btnAdd, 1, 4, 2, 1);
-        paneAdd.add(lblErrorAdd, 0, 5, 3, 1);
+        paneAdd.add(lblInfoAdd, 0, 5, 3, 1);
 
         //TODO: Fix format
         //TODO: Add edit
@@ -184,7 +184,7 @@ public class MainFrame {
         btnSave.setMinWidth(75);
         btnDelete = new CustomButton("Delete");
         btnDelete.setMinWidth(75);
-        lblErrorEdit = new ErrorLabel("Error: Test");
+        lblInfoEdit = new InfoLabel("Error: Test");
         paneEdit.add(lblEditFirstName, 0, 0);
         paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
         paneEdit.add(lblEditLastName, 0, 1);
@@ -195,7 +195,7 @@ public class MainFrame {
         paneEdit.add(txtEditNumber, 1, 3, 2, 1);
         paneEdit.add(btnSave, 1, 4);
         paneEdit.add(btnDelete, 2, 4);
-        paneEdit.add(lblErrorEdit,0, 5, 3, 1);
+        paneEdit.add(lblInfoEdit,0, 5, 3, 1);
 
         paneExport = new CustomGridPane();
         paneExport.addColumns(1);
@@ -212,25 +212,22 @@ public class MainFrame {
         btnAdd.setOnAction(
             e -> {
                 if(txtFirstName.getText().length() == 0) {
-                    lblErrorAdd.setText("Error: Invalid First Name.");
-                    lblErrorAdd.setVisible(true);
+                    lblInfoAdd.showError("Error: Invalid First Name.");
                 }else if(txtLastName.getText().length() == 0){
-                    lblErrorAdd.setText("Error: Invalid Last Name.");
-                    lblErrorAdd.setVisible(true);
+                    lblInfoAdd.showError("Error: Invalid Last Name.");
                 }else if(txtEmail.getText().length() > 0 && !txtEmail.getText().contains("@")){
-                    lblErrorAdd.setText("Error: Invalid Email.");
-                    lblErrorAdd.setVisible(true);
+                    lblInfoAdd.showError("Error: Invalid Email.");
                 }else if(txtNumber.getText().length() > 0 && (!txtNumber.getText().contains("(") || !txtNumber.getText().contains(")") || !txtNumber.getText().contains("-") || txtNumber.getText().length() != 17)){
-                    lblErrorAdd.setText("Error: Invalid Phone Number.");
-                    lblErrorAdd.setVisible(true);
+                    lblInfoAdd.showError("Error: Invalid Phone Number.");
                 }else{
                     people.add(new Person(txtFirstName.getText(), txtLastName.getText(), txtEmail.getText(), txtNumber.getText()));
+                    lblInfoAdd.showInfo("Successfully added: " + txtFirstName.getText() + " " + txtLastName.getText());
                     txtFirstName.setText("");
                     txtLastName.setText("");
                     txtEmail.setText("");
                     txtNumber.setText("");
-                    lblErrorAdd.setVisible(false);
                 }
+                e.consume();
             }
         );
 
@@ -251,6 +248,7 @@ public class MainFrame {
                      lblSearchResultNumber.setText(searchPeople.get(0).getNumber());
                      searchIndex = 0;
                  }
+                 e.consume();
              }
         );
 
@@ -267,6 +265,7 @@ public class MainFrame {
                     lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
                     lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
                 }
+                e.consume();
             }
         );
 
@@ -283,6 +282,7 @@ public class MainFrame {
                     lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
                     lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
                 }
+                e.consume();
             }
         );
 
@@ -299,6 +299,7 @@ public class MainFrame {
                     lblResultEmail.setText(people.get(index).getEmail());
                     lblResultNumber.setText(people.get(index).getNumber());
                 }
+                e.consume();
             }
         );
 
@@ -315,6 +316,7 @@ public class MainFrame {
                     lblResultEmail.setText(people.get(index).getEmail());
                     lblResultNumber.setText(people.get(index).getNumber());
                 }
+                e.consume();
             }
         );
 
@@ -325,30 +327,28 @@ public class MainFrame {
                 txtEditEmail.setText(lblResultEmail.getText());
                 txtEditNumber.setText(lblResultNumber.getText());
                 frame.getSelectionModel().select(tabEdit);
+                e.consume();
             }
         );
 
         btnSave.setOnAction(
             e -> {
                 if(txtEditFirstName.getText().length() == 0) {
-                    lblErrorEdit.setText("Error: Invalid First Name.");
-                    lblErrorEdit.setVisible(true);
+                    lblInfoEdit.showError("Error: Invalid First Name.");
                 }else if(txtEditLastName.getText().length() == 0){
-                    lblErrorEdit.setText("Error: Invalid Last Name.");
-                    lblErrorEdit.setVisible(true);
+                    lblInfoEdit.showError("Error: Invalid Last Name.");
                 }else if(txtEditEmail.getText().length() > 0 && !txtEditEmail.getText().contains("@")){
-                    lblErrorEdit.setText("Error: Invalid Email.");
-                    lblErrorEdit.setVisible(true);
+                    lblInfoEdit.showError("Error: Invalid Email.");
                 }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
-                    lblErrorEdit.setText("Error: Invalid Phone Number.");
-                    lblErrorEdit.setVisible(true);
+                    lblInfoEdit.showError("Error: Invalid Phone Number.");
                 }else{
+                    lblInfoEdit.showInfo("Successfully editted: " + txtEditFirstName.getText() + " " + txtEditLastName.getText());
                     people.get(index).setFirstName(txtEditFirstName.getText());
                     people.get(index).setLastName(txtEditLastName.getText());
                     people.get(index).setEmail(txtEditEmail.getText());
                     people.get(index).setNumber(txtEditNumber.getText());
-                    lblErrorEdit.setVisible(false);
                 }
+                e.consume();
             }
         );
 
@@ -365,6 +365,7 @@ public class MainFrame {
                     txtEditNumber.setText("");
                     frame.getSelectionModel().select(tabView);
                 }
+                e.consume();
             }
         );
 
@@ -416,6 +417,7 @@ public class MainFrame {
                 } catch (ParserConfigurationException | TransformerException e1) {
                     e1.printStackTrace();
                 }
+                e.consume();
             }
         );
 
