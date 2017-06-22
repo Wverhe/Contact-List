@@ -34,7 +34,7 @@ public class MainFrame {
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
     private InfoLabel lblInfoAdd, lblInfoEdit;
     private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
-    private CustomButton btnAdd, btnExport, btnImport, btnViewPrevious, btnViewNext, btnSave, btnEdit, btnDelete, btnSearch, btnSearchPrevious, btnSearchNext;
+    private CustomButton btnAdd, btnExport, btnImport, btnViewPrevious, btnViewNext, btnSave, btnEdit, btnDelete, btnSearch, btnSearchPrevious, btnSearchNext, btnEditSearch;
     //TODO: Potentially remove all informative labels and replace with TextField promptTexts
     //TODO: Make every tab an object (Maybe not)
 
@@ -82,6 +82,24 @@ public class MainFrame {
             }
         );
 
+        tabSearch.setOnSelectionChanged(
+                e -> {
+                    if(searchIndex != -1){
+                        lblResultFirstName.setText(people.get(searchIndex).getFirstName());
+                        lblResultLastName.setText(people.get(searchIndex).getLastName());
+                        lblResultEmail.setText(people.get(searchIndex).getEmail());
+                        lblResultNumber.setText(people.get(searchIndex).getNumber());
+                    }else{
+                        //In case the all elements are deleted from table, the table will show blank.
+                        lblResultFirstName.setText("");
+                        lblResultLastName.setText("");
+                        lblResultEmail.setText("");
+                        lblResultNumber.setText("");
+                    }
+                    e.consume();
+                }
+        );
+
         //TODO: Add specialization, social networks, |age|, |location|
         //TODO: Remove labels or promptText
         paneAdd = new CustomGridPane();
@@ -111,7 +129,6 @@ public class MainFrame {
         paneAdd.add(btnAdd, 1, 4, 2, 1);
         paneAdd.add(lblInfoAdd, 0, 5, 3, 1);
 
-        //TODO: Add edit
         //TODO: Add error label
         paneSearch = new CustomGridPane();
         paneSearch.addColumns(2);
@@ -127,6 +144,7 @@ public class MainFrame {
         txtSearch.setPromptText("Input First Name");
         btnSearchPrevious = new CustomButton("Previous");
         btnSearchNext = new CustomButton("Next");
+        btnEditSearch = new CustomButton("Edit");
         btnSearch = new CustomButton("Search");
         paneSearch.add(lblSearchFirstName, 0, 0);
         paneSearch.add(lblSearchResultFirstName, 1, 0, 2, 1);
@@ -140,6 +158,7 @@ public class MainFrame {
         paneSearch.add(btnSearchNext, 1, 4);
         paneSearch.add(txtSearch, 0, 5, 2, 1);
         paneSearch.add(btnSearch, 0, 6, 2, 1);
+        paneSearch.add(btnEditSearch, 0, 7, 2, 1);
 
         paneView = new CustomGridPane();
         paneView.addColumns(2);
@@ -147,7 +166,7 @@ public class MainFrame {
         lblViewLastName = new CustomLabel("Last Name: ");
         lblViewEmail = new CustomLabel("Email: ");
         lblViewNumber = new CustomLabel("Phone Number: ");
-        lblResultFirstName = new CustomLabel("");
+        lblResultFirstName = new CustomLabel(""); //TODO: Change result to something else
         lblResultLastName = new CustomLabel("");
         lblResultEmail = new CustomLabel("");
         lblResultNumber = new CustomLabel("");
@@ -285,6 +304,18 @@ public class MainFrame {
                     lblSearchResultEmail.setText(searchResults.get(searchIndex).getEmail());
                     lblSearchResultNumber.setText(searchResults.get(searchIndex).getNumber());
                 }
+                e.consume();
+            }
+        );
+
+        btnEditSearch.setOnAction(
+            e -> {
+                txtEditFirstName.setText(lblSearchResultFirstName.getText());
+                txtEditLastName.setText(lblSearchResultLastName.getText());
+                txtEditEmail.setText(lblSearchResultEmail.getText());
+                txtEditNumber.setText(lblSearchResultNumber.getText());
+                frame.getTabs().add(3, tabEdit);
+                frame.getSelectionModel().select(tabEdit);
                 e.consume();
             }
         );
