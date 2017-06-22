@@ -57,7 +57,7 @@ public class NewPasswordFrame {
                         txtPassword.setText("");
                         txtRepeatPassword.setText("");
                         infoLabel.dismiss();
-                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 300, 275));
+                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 375, 275));
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }

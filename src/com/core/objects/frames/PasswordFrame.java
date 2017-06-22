@@ -48,7 +48,7 @@ public class PasswordFrame {
             e -> {
                 try {
                     if(encrypter.decryptText(readFile(password.getPath(), Charset.defaultCharset())).equals(txtPassword.getText())){
-                        Scene scene = new Scene(new MainFrame().getFrame(), 300, 275);
+                        Scene scene = new Scene(new MainFrame().getFrame(), 375, 275);
                         scene.getStylesheets().add("/resources/stylesheet.css");
                         Main.getPrimaryStage().setScene(scene);
                         lblInfo.dismiss();

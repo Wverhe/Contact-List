@@ -15,6 +15,7 @@ public class CustomLabel extends Label {
         setAlignment(Pos.CENTER);
         setPrefWidth(Double.MAX_VALUE);
         setTextFill(Color.WHITE);
+        //setStyle("-fx-border-width: .5px; -fx-border-style: hidden hidden solid hidden; -fx-border-color: white;");
         setFont(javafx.scene.text.Font.font("Tahoma", FontWeight.SEMI_BOLD, 12));
     }
 }

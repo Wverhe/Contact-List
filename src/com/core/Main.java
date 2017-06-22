@@ -48,7 +48,7 @@ public class Main extends Application {
         if(!MainFrame.getSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Save Information");
-            alert.setHeaderText("Would you like to save the data you entered or saved?");
+            alert.setHeaderText("Would you like to save the data you entered or edited?");
             alert.setContentText("You have unsaved data, would you like to save now?");
 
             Optional<ButtonType> result = alert.showAndWait();

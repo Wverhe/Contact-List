@@ -1,8 +1,6 @@
 package com.core;
 
 import com.core.objects.component.*;
-import com.core.objects.frames.NewPasswordFrame;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,30 +28,28 @@ import java.util.Optional;
  */
 public class MainFrame {
     static TabPane frame;
-    private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
-    private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
+    private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport, tabSettings;
+    private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport, paneSettings;
 
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
     private InfoLabel lblInfoAdd, lblInfoEdit;
     private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
-    private CustomButton btnAdd, btnExport, btnImport, btnPreviousView, btnNextView, btnSave, btnEdit, btnDelete, btnSearch, btnPreviousSearch, btnNextSearch;
-    //TODO: Swap btnNext/btnPreivous words -> btnNextView = btnViewNext
+    private CustomButton btnAdd, btnExport, btnImport, btnViewPrevious, btnViewNext, btnSave, btnEdit, btnDelete, btnSearch, btnSearchPrevious, btnSearchNext;
     //TODO: Potentially remove all informative labels and replace with TextField promptTexts
-    //TODO: Make every tab an object
+    //TODO: Make every tab an object (Maybe not)
 
     private static ArrayList<Person> people;
-    private ArrayList<Person> searchPeople; //TODO: Change this name? lol
+    private ArrayList<Person> searchResults;
     private static Encrypter encrypter;
     private File contacts;
     private int index, searchIndex;
-    private static boolean saved;
+    private static boolean saved = true;
 
     public MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
-        searchPeople = new ArrayList<>();
+        searchResults = new ArrayList<>();
         people = importContactList(contacts);
-        saved = true;
         index = -1;
         searchIndex = -1;
         frame = new TabPane();
@@ -66,6 +62,7 @@ public class MainFrame {
         tabEdit = new Tab("Edit");
         tabExport = new Tab("Export");
         tabImport = new Tab("Import");
+        tabSettings = new Tab("Settings");
 
         tabView.setOnSelectionChanged(
             e -> {
@@ -128,12 +125,9 @@ public class MainFrame {
         lblSearchResultNumber = new CustomLabel("");
         txtSearch = new TextField();
         txtSearch.setPromptText("Input First Name");
-        btnPreviousSearch = new CustomButton("Previous");
-        btnPreviousSearch.setMinWidth(75);
-        btnNextSearch = new CustomButton("Next");
-        btnNextSearch.setMinWidth(75);
+        btnSearchPrevious = new CustomButton("Previous");
+        btnSearchNext = new CustomButton("Next");
         btnSearch = new CustomButton("Search");
-        btnSearch.setMinWidth(167);
         paneSearch.add(lblSearchFirstName, 0, 0);
         paneSearch.add(lblSearchResultFirstName, 1, 0, 2, 1);
         paneSearch.add(lblSearchLastName, 0, 1);
@@ -142,8 +136,8 @@ public class MainFrame {
         paneSearch.add(lblSearchResultEmail, 1, 2, 2, 1);
         paneSearch.add(lblSearchNumber, 0, 3);
         paneSearch.add(lblSearchResultNumber, 1, 3, 2, 1);
-        paneSearch.add(btnPreviousSearch, 0, 4);
-        paneSearch.add(btnNextSearch, 1, 4);
+        paneSearch.add(btnSearchPrevious, 0, 4);
+        paneSearch.add(btnSearchNext, 1, 4);
         paneSearch.add(txtSearch, 0, 5, 2, 1);
         paneSearch.add(btnSearch, 0, 6, 2, 1);
 
@@ -157,8 +151,8 @@ public class MainFrame {
         lblResultLastName = new CustomLabel("");
         lblResultEmail = new CustomLabel("");
         lblResultNumber = new CustomLabel("");
-        btnPreviousView = new CustomButton("Previous");
-        btnNextView = new CustomButton("Next");
+        btnViewPrevious = new CustomButton("Previous");
+        btnViewNext = new CustomButton("Next");
         btnEdit = new CustomButton("Edit");
         paneView.add(lblViewFirstName, 0, 0);
         paneView.add(lblResultFirstName, 1, 0, 2, 1);
@@ -168,8 +162,8 @@ public class MainFrame {
         paneView.add(lblResultEmail, 1, 2, 2, 1);
         paneView.add(lblViewNumber, 0, 3);
         paneView.add(lblResultNumber, 1, 3, 2, 1);
-        paneView.add(btnPreviousView, 0, 4);
-        paneView.add(btnNextView, 1, 4);
+        paneView.add(btnViewPrevious, 0, 4);
+        paneView.add(btnViewNext, 1, 4);
         paneView.add(btnEdit, 0, 5, 2, 1);
         if(people.size() > 0){
             index = 0;
@@ -210,6 +204,8 @@ public class MainFrame {
         btnImport = new CustomButton("Import");
         paneImport.add(btnImport, 0, 0);
 
+        paneSettings = new CustomGridPane();
+
         btnAdd.setOnAction(
             e -> {
                 if(txtFirstName.getText().length() == 0) {
@@ -233,68 +229,67 @@ public class MainFrame {
             }
         );
 
-        //TODO: Add second pass through to check if name contains
         btnSearch.setOnAction(
              e -> {
                  String searchTerm = txtSearch.getText();
-                 searchPeople.clear();
+                 searchResults.clear();
                  for(Person aPeople : people){
                     if(aPeople.getFirstName().equalsIgnoreCase(searchTerm)){
-                        searchPeople.add(aPeople);
+                        searchResults.add(aPeople);
                     }
                  }
                  //Second pass since I want names containing at the end of the list.
                  for(Person aPeople : people){
-                     if(!searchPeople.contains(aPeople) && aPeople.getFirstName().contains(searchTerm)){
-                         searchPeople.add(aPeople);
+                     if(!searchResults.contains(aPeople) && aPeople.getFirstName().contains(searchTerm)){
+                         searchResults.add(aPeople);
                      }
                  }
-                 if(searchPeople.size() > 0){
-                     lblSearchResultFirstName.setText(searchPeople.get(0).getFirstName());
-                     lblSearchResultLastName.setText(searchPeople.get(0).getLastName());
-                     lblSearchResultEmail.setText(searchPeople.get(0).getEmail());
-                     lblSearchResultNumber.setText(searchPeople.get(0).getNumber());
+                 if(searchResults.size() > 0){
+                     lblSearchResultFirstName.setText(searchResults.get(0).getFirstName());
+                     lblSearchResultLastName.setText(searchResults.get(0).getLastName());
+                     lblSearchResultEmail.setText(searchResults.get(0).getEmail());
+                     lblSearchResultNumber.setText(searchResults.get(0).getNumber());
                      searchIndex = 0;
                  }
                  e.consume();
              }
         );
 
-        btnNextSearch.setOnAction(
+        btnSearchNext.setOnAction(
             e -> {
-                if(searchPeople.size() > 0){
-                    if (searchIndex == searchPeople.size() - 1){
+                if(searchResults.size() > 0){
+                    if (searchIndex == searchResults.size() - 1){
                         searchIndex = 0;
                     } else {
                         searchIndex += 1;
                     }
-                    lblSearchResultFirstName.setText(searchPeople.get(searchIndex).getFirstName());
-                    lblSearchResultLastName.setText(searchPeople.get(searchIndex).getLastName());
-                    lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
-                    lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
+                    lblSearchResultFirstName.setText(searchResults.get(searchIndex).getFirstName());
+                    lblSearchResultLastName.setText(searchResults.get(searchIndex).getLastName());
+                    lblSearchResultEmail.setText(searchResults.get(searchIndex).getEmail());
+                    lblSearchResultNumber.setText(searchResults.get(searchIndex).getNumber());
                 }
                 e.consume();
             }
         );
 
-        btnPreviousSearch.setOnAction(
+        btnSearchPrevious.setOnAction(
             e -> {
-                if(searchPeople.size() > 0){
+                if(searchResults.size() > 0){
                     if (searchIndex == 0) {
-                        searchIndex = searchPeople.size() - 1;
+                        searchIndex = searchResults.size() - 1;
                     } else {
                         searchIndex -= 1;
                     }
-                    lblSearchResultFirstName.setText(searchPeople.get(searchIndex).getFirstName());
-                    lblSearchResultLastName.setText(searchPeople.get(searchIndex).getLastName());
-                    lblSearchResultEmail.setText(searchPeople.get(searchIndex).getEmail());
-                    lblSearchResultNumber.setText(searchPeople.get(searchIndex).getNumber());
+                    lblSearchResultFirstName.setText(searchResults.get(searchIndex).getFirstName());
+                    lblSearchResultLastName.setText(searchResults.get(searchIndex).getLastName());
+                    lblSearchResultEmail.setText(searchResults.get(searchIndex).getEmail());
+                    lblSearchResultNumber.setText(searchResults.get(searchIndex).getNumber());
                 }
                 e.consume();
             }
         );
 
-        btnNextView.setOnAction(
+        btnViewNext.setOnAction(
             e -> {
                 if(people.size() > 0){
                     if (index == people.size() - 1){
@@ -311,7 +306,7 @@ public class MainFrame {
             }
         );
 
-        btnPreviousView.setOnAction(
+        btnViewPrevious.setOnAction(
             e -> {
                 if(people.size() > 0) {
                     if (index == 0) {
@@ -336,7 +331,6 @@ public class MainFrame {
                 txtEditNumber.setText(lblResultNumber.getText());
                 frame.getTabs().add(3, tabEdit);
                 frame.getSelectionModel().select(tabEdit);
-                saved = false;
                 e.consume();
             }
         );
@@ -365,6 +359,7 @@ public class MainFrame {
                         people.get(index).setNumber(txtEditNumber.getText());
                         frame.getSelectionModel().select(tabView);
                         frame.getTabs().remove(tabEdit);
+                        saved = false;
                     } else {}
                 }
                 e.consume();
@@ -399,7 +394,16 @@ public class MainFrame {
 
         btnExport.setOnAction(
             e -> {
-                save();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Save Information");
+                alert.setHeaderText("Would you like to save the data you entered or edited?");
+                alert.setContentText("Saving will overwrite previously saved data, would you like to continue?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    save();
+                } else {}
+
                 e.consume();
             }
         );
@@ -410,8 +414,9 @@ public class MainFrame {
         tabEdit.setContent(paneEdit);
         tabExport.setContent(paneExport);
         tabImport.setContent(paneImport);
+        tabSettings.setContent(paneSettings);
 
-        frame.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport);
+        frame.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport, tabSettings);
     }
 
     private ArrayList<Person> importContactList(File file){
