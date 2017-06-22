@@ -41,7 +41,7 @@ public class MainFrame {
     private static ArrayList<Person> people;
     private ArrayList<Person> searchResults;
     private static Encrypter encrypter;
-    private File contacts;
+    private static File contacts;
     private int index, searchIndex;
     private static boolean saved = true;
 
@@ -491,11 +491,9 @@ public class MainFrame {
                 Transformer transformer = transformerFactory.newTransformer();
 
                 try {
-                    File file = new File("contact-list.wver");
-                    file.createNewFile();
-
+                    contacts.createNewFile();
                     //TODO: Potentially change to FileWriter
-                    PrintWriter writer = new PrintWriter(file);
+                    PrintWriter writer = new PrintWriter(contacts);
                     DOMSource source = new DOMSource(doc);
                     StringWriter sw = new StringWriter();
                     StreamResult result2 = new StreamResult(sw);
