@@ -26,7 +26,6 @@ import java.util.Optional;
 /**
  * Created by agaspari on 6/19/2017.
  */
-//TODO: Style more.
 public class PasswordFrame {
     private CustomGridPane frame;
     private PasswordField txtPassword;

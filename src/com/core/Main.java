@@ -4,9 +4,12 @@ import com.core.objects.frames.NewPasswordFrame;
 import com.core.objects.frames.PasswordFrame;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.io.File;
+import java.util.Optional;
 
 public class Main extends Application {
     private static Stage pStage;
@@ -38,5 +41,20 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void stop(){
+        if(!MainFrame.getSaved()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Save Information");
+            alert.setHeaderText("Would you like to save the data you entered or saved?");
+            alert.setContentText("You have unsaved data, would you like to save now?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                MainFrame.save();
+            } else {}
+        }
     }
 }

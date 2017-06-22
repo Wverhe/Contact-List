@@ -1,6 +1,8 @@
 package com.core;
 
 import com.core.objects.component.*;
+import com.core.objects.frames.NewPasswordFrame;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,6 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Created by agaspari on 6/19/2017.
@@ -30,7 +33,6 @@ public class MainFrame {
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport;
     private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport;
 
-
     private Label lblFirstName, lblLastName, lblEmail, lblNumber, lblViewFirstName, lblViewLastName, lblViewEmail, lblViewNumber, lblResultFirstName, lblResultLastName, lblResultEmail, lblResultNumber, lblEditFirstName, lblEditLastName, lblEditEmail, lblEditNumber, lblSearchFirstName, lblSearchLastName, lblSearchEmail, lblSearchNumber, lblSearchResultFirstName, lblSearchResultLastName, lblSearchResultEmail, lblSearchResultNumber;
     private InfoLabel lblInfoAdd, lblInfoEdit;
     private TextField txtFirstName, txtLastName, txtEmail, txtNumber, txtEditFirstName, txtEditLastName, txtEditEmail, txtEditNumber, txtSearch;
@@ -39,16 +41,21 @@ public class MainFrame {
     //TODO: Potentially remove all informative labels and replace with TextField promptTexts
     //TODO: Make every tab an object
 
-    private ArrayList<Person> people, searchPeople; //TODO: Change this name? lol
-    private Encrypter encrypter;
+    private static ArrayList<Person> people;
+    private ArrayList<Person> searchPeople; //TODO: Change this name? lol
+    private static Encrypter encrypter;
     private File contacts;
-    private int index = -1, searchIndex = -1;
+    private int index, searchIndex;
+    private static boolean saved;
 
     public MainFrame(){
         encrypter = new Encrypter();
         contacts = new File("contact-list.wver");
         searchPeople = new ArrayList<>();
         people = importContactList(contacts);
+        saved = true;
+        index = -1;
+        searchIndex = -1;
         frame = new TabPane();
         frame.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         frame.setStyle(" -fx-background-color: #3c3c3c;");
@@ -107,7 +114,6 @@ public class MainFrame {
         paneAdd.add(btnAdd, 1, 4, 2, 1);
         paneAdd.add(lblInfoAdd, 0, 5, 3, 1);
 
-        //TODO: Fix format
         //TODO: Add edit
         //TODO: Add error label
         paneSearch = new CustomGridPane();
@@ -154,7 +160,6 @@ public class MainFrame {
         btnPreviousView = new CustomButton("Previous");
         btnNextView = new CustomButton("Next");
         btnEdit = new CustomButton("Edit");
-        btnEdit.setMinWidth(167);
         paneView.add(lblViewFirstName, 0, 0);
         paneView.add(lblResultFirstName, 1, 0, 2, 1);
         paneView.add(lblViewLastName, 0, 1);
@@ -181,9 +186,7 @@ public class MainFrame {
         txtEditEmail = new TextField();
         txtEditNumber = new TextField();
         btnSave = new CustomButton("Save");
-        btnSave.setMinWidth(75);
         btnDelete = new CustomButton("Delete");
-        btnDelete.setMinWidth(75);
         lblInfoEdit = new InfoLabel("Error: Test");
         paneEdit.add(lblEditFirstName, 0, 0);
         paneEdit.add(txtEditFirstName, 1, 0, 2, 1);
@@ -207,8 +210,6 @@ public class MainFrame {
         btnImport = new CustomButton("Import");
         paneImport.add(btnImport, 0, 0);
 
-        //TODO: Add format verification (Might be Completed)
-        //TODO: Find flow for unknown email/number
         btnAdd.setOnAction(
             e -> {
                 if(txtFirstName.getText().length() == 0) {
@@ -226,6 +227,7 @@ public class MainFrame {
                     txtLastName.setText("");
                     txtEmail.setText("");
                     txtNumber.setText("");
+                    saved = false;
                 }
                 e.consume();
             }
@@ -240,6 +242,12 @@ public class MainFrame {
                     if(aPeople.getFirstName().equalsIgnoreCase(searchTerm)){
                         searchPeople.add(aPeople);
                     }
+                 }
+                 //Second pass since I want names containing at the end of the list.
+                 for(Person aPeople : people){
+                     if(!searchPeople.contains(aPeople) && aPeople.getFirstName().contains(searchTerm)){
+                         searchPeople.add(aPeople);
+                     }
                  }
                  if(searchPeople.size() > 0){
                      lblSearchResultFirstName.setText(searchPeople.get(0).getFirstName());
@@ -326,7 +334,9 @@ public class MainFrame {
                 txtEditLastName.setText(lblResultLastName.getText());
                 txtEditEmail.setText(lblResultEmail.getText());
                 txtEditNumber.setText(lblResultNumber.getText());
+                frame.getTabs().add(3, tabEdit);
                 frame.getSelectionModel().select(tabEdit);
+                saved = false;
                 e.consume();
             }
         );
@@ -342,11 +352,20 @@ public class MainFrame {
                 }else if(txtEditNumber.getText().length() > 0 && (!txtEditNumber.getText().contains("(") || !txtEditNumber.getText().contains(")") || !txtEditNumber.getText().contains("-") || txtEditNumber.getText().length() != 17)){
                     lblInfoEdit.showError("Error: Invalid Phone Number.");
                 }else{
-                    lblInfoEdit.showInfo("Successfully editted: " + txtEditFirstName.getText() + " " + txtEditLastName.getText());
-                    people.get(index).setFirstName(txtEditFirstName.getText());
-                    people.get(index).setLastName(txtEditLastName.getText());
-                    people.get(index).setEmail(txtEditEmail.getText());
-                    people.get(index).setNumber(txtEditNumber.getText());
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Overwrite Contact");
+                    alert.setHeaderText("Clicking OK will overwrite the current contacts inforamtion.");
+                    alert.setContentText("You will not be able to revert this edit, are you sure you want to do this?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK){
+                        people.get(index).setFirstName(txtEditFirstName.getText());
+                        people.get(index).setLastName(txtEditLastName.getText());
+                        people.get(index).setEmail(txtEditEmail.getText());
+                        people.get(index).setNumber(txtEditNumber.getText());
+                        frame.getSelectionModel().select(tabView);
+                        frame.getTabs().remove(tabEdit);
+                    } else {}
                 }
                 e.consume();
             }
@@ -354,16 +373,25 @@ public class MainFrame {
 
         btnDelete.setOnAction(
             e -> {
-                //TODO: Add confirmation
                 //TODO: Find Blank Error
                 if(index != -1){
-                    people.remove(index);
-                    index--;
-                    txtEditFirstName.setText("");
-                    txtEditLastName.setText("");
-                    txtEditEmail.setText("");
-                    txtEditNumber.setText("");
-                    frame.getSelectionModel().select(tabView);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete Contact");
+                    alert.setHeaderText("Clicking OK will delete the contact permanently.");
+                    alert.setContentText("You will not be able to retrieve this contact, are you sure you want to do this?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK){
+                        people.remove(index);
+                        index--;
+                        txtEditFirstName.setText("");
+                        txtEditLastName.setText("");
+                        txtEditEmail.setText("");
+                        txtEditNumber.setText("");
+                        frame.getSelectionModel().select(tabView);
+                        frame.getTabs().remove(tabEdit);
+                        saved = false;
+                    } else {}
                 }
                 e.consume();
             }
@@ -371,52 +399,7 @@ public class MainFrame {
 
         btnExport.setOnAction(
             e -> {
-                try {
-                    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-                    Document doc = docBuilder.newDocument();
-
-                    Element rootElement = doc.createElement("people");
-                    doc.appendChild(rootElement);
-
-                    for (Person aPeople : people) {
-                        Element person = doc.createElement("person");
-                        Element firstName = doc.createElement("first-name");
-                        firstName.appendChild(doc.createTextNode(aPeople.getFirstName()));
-                        Element lastName = doc.createElement("last-name");
-                        lastName.appendChild(doc.createTextNode(aPeople.getLastName()));
-                        Element email = doc.createElement("email");
-                        email.appendChild(doc.createTextNode(aPeople.getEmail()));
-                        Element number = doc.createElement("phone-number");
-                        number.appendChild(doc.createTextNode(aPeople.getNumber()));
-                        person.appendChild(firstName);
-                        person.appendChild(lastName);
-                        person.appendChild(email);
-                        person.appendChild(number);
-                        rootElement.appendChild(person);
-
-                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                        Transformer transformer = transformerFactory.newTransformer();
-
-                        try {
-                            File file = new File("contact-list.wver");
-                            file.createNewFile();
-
-                            //TODO: Potentially change to FileWriter
-                            PrintWriter writer = new PrintWriter(file);
-                            DOMSource source = new DOMSource(doc);
-                            StringWriter sw = new StringWriter();
-                            StreamResult result2 = new StreamResult(sw);
-                            transformer.transform(source, result2);
-                            writer.print(encrypter.encryptText(sw.toString()));
-                            writer.close();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                } catch (ParserConfigurationException | TransformerException e1) {
-                    e1.printStackTrace();
-                }
+                save();
                 e.consume();
             }
         );
@@ -428,7 +411,7 @@ public class MainFrame {
         tabExport.setContent(paneExport);
         tabImport.setContent(paneImport);
 
-        frame.getTabs().addAll(tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport);
+        frame.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport);
     }
 
     private ArrayList<Person> importContactList(File file){
@@ -468,5 +451,59 @@ public class MainFrame {
 
     public static TabPane getFrame(){
         return frame;
+    }
+
+    public static boolean getSaved(){
+        return saved;
+    }
+
+    public static void save(){
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.newDocument();
+
+            Element rootElement = doc.createElement("people");
+            doc.appendChild(rootElement);
+
+            for (Person aPeople : people) {
+                Element person = doc.createElement("person");
+                Element firstName = doc.createElement("first-name");
+                firstName.appendChild(doc.createTextNode(aPeople.getFirstName()));
+                Element lastName = doc.createElement("last-name");
+                lastName.appendChild(doc.createTextNode(aPeople.getLastName()));
+                Element email = doc.createElement("email");
+                email.appendChild(doc.createTextNode(aPeople.getEmail()));
+                Element number = doc.createElement("phone-number");
+                number.appendChild(doc.createTextNode(aPeople.getNumber()));
+                person.appendChild(firstName);
+                person.appendChild(lastName);
+                person.appendChild(email);
+                person.appendChild(number);
+                rootElement.appendChild(person);
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+
+                try {
+                    File file = new File("contact-list.wver");
+                    file.createNewFile();
+
+                    //TODO: Potentially change to FileWriter
+                    PrintWriter writer = new PrintWriter(file);
+                    DOMSource source = new DOMSource(doc);
+                    StringWriter sw = new StringWriter();
+                    StreamResult result2 = new StreamResult(sw);
+                    transformer.transform(source, result2);
+                    writer.print(encrypter.encryptText(sw.toString()));
+                    writer.close();
+                    saved = true;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        } catch (ParserConfigurationException | TransformerException e1) {
+            e1.printStackTrace();
+        }
     }
 }
