@@ -26,8 +26,7 @@ import java.util.Optional;
 /**
  * Created by agaspari on 6/19/2017.
  */
-public class PasswordFrame {
-    private CustomGridPane frame;
+public class PasswordFrame extends CustomGridPane{
     private PasswordField txtPassword;
     private Button btnSubmit, btnReset;
     private InfoLabel lblInfo;
@@ -36,9 +35,8 @@ public class PasswordFrame {
     public PasswordFrame(){
         encrypter = new Encrypter();
         password = new File("password.wver");
-        frame = new CustomGridPane();
-        frame.addColumns(2);
-        frame.setStyle(" -fx-background-color: #3c3c3c;");
+        addColumns(2);
+        setStyle(" -fx-background-color: #3c3c3c;");
         txtPassword = new PasswordField();
         txtPassword.setPromptText("Password");
         btnSubmit = new CustomButton("Submit");
@@ -48,7 +46,7 @@ public class PasswordFrame {
             e -> {
                 try {
                     if(encrypter.decryptText(readFile(password.getPath(), Charset.defaultCharset())).equals(txtPassword.getText())){
-                        Scene scene = new Scene(new MainFrame().getFrame(), 375, 275);
+                        Scene scene = new Scene(new MainFrame(), 375, 275);
                         scene.getStylesheets().add("/resources/stylesheet.css");
                         Main.getPrimaryStage().setScene(scene);
                         lblInfo.dismiss();
@@ -73,25 +71,21 @@ public class PasswordFrame {
                 if (result.isPresent() && result.get() == ButtonType.OK){
                     new File("contact-list.wver").delete();
                     new File("password.wver").delete();
-                    Main.getPrimaryStage().setScene(new Scene(new NewPasswordFrame().getFrame(), 300, 275));
+                    Main.getPrimaryStage().setScene(new Scene(new NewPasswordFrame(), 300, 275));
                 } else {
                     //Do Nothing.
                 }
                 e.consume();
             }
         );
-        frame.add(txtPassword, 0, 0, 2, 1);
-        frame.add(btnSubmit, 0, 1, 1, 1);
-        frame.add(btnReset, 1, 1, 1, 1);
-        frame.add(lblInfo, 0, 2, 2, 1);
+        add(txtPassword, 0, 0, 2, 1);
+        add(btnSubmit, 0, 1, 1, 1);
+        add(btnReset, 1, 1, 1, 1);
+        add(lblInfo, 0, 2, 2, 1);
     }
 
     private String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
-    }
-
-    public GridPane getFrame(){
-        return frame;
     }
 }

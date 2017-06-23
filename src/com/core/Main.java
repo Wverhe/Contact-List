@@ -21,9 +21,9 @@ public class Main extends Application {
         setPrimaryStage(primaryStage);
         password = new File("password.wver");
         if(password.exists()){
-            passwordForm = new PasswordFrame().getFrame();
+            passwordForm = new PasswordFrame();
         }else{
-            passwordForm = new NewPasswordFrame().getFrame();
+            passwordForm = new NewPasswordFrame();
         }
 
         primaryStage.setTitle("Contact Book");

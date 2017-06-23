@@ -26,8 +26,7 @@ import java.util.Optional;
 /**
  * Created by agaspari on 6/19/2017.
  */
-public class MainFrame {
-    static TabPane frame;
+public class MainFrame extends TabPane{
     private Tab tabAdd, tabSearch, tabView, tabEdit, tabExport, tabImport, tabSettings;
     private CustomGridPane paneAdd, paneSearch, paneView, paneEdit, paneExport, paneImport, paneSettings;
 
@@ -52,9 +51,8 @@ public class MainFrame {
         people = importContactList(contacts);
         index = -1;
         searchIndex = -1;
-        frame = new TabPane();
-        frame.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        frame.setStyle(" -fx-background-color: #3c3c3c;");
+        setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        setStyle(" -fx-background-color: #3c3c3c;");
 
         tabAdd = new Tab("Add");
         tabSearch = new Tab("Search");
@@ -314,8 +312,8 @@ public class MainFrame {
                 txtEditLastName.setText(lblSearchResultLastName.getText());
                 txtEditEmail.setText(lblSearchResultEmail.getText());
                 txtEditNumber.setText(lblSearchResultNumber.getText());
-                frame.getTabs().add(3, tabEdit);
-                frame.getSelectionModel().select(tabEdit);
+                getTabs().add(3, tabEdit);
+                getSelectionModel().select(tabEdit);
                 e.consume();
             }
         );
@@ -360,8 +358,8 @@ public class MainFrame {
                 txtEditLastName.setText(lblResultLastName.getText());
                 txtEditEmail.setText(lblResultEmail.getText());
                 txtEditNumber.setText(lblResultNumber.getText());
-                frame.getTabs().add(3, tabEdit);
-                frame.getSelectionModel().select(tabEdit);
+                getTabs().add(3, tabEdit);
+                getSelectionModel().select(tabEdit);
                 e.consume();
             }
         );
@@ -388,8 +386,8 @@ public class MainFrame {
                         people.get(index).setLastName(txtEditLastName.getText());
                         people.get(index).setEmail(txtEditEmail.getText());
                         people.get(index).setNumber(txtEditNumber.getText());
-                        frame.getSelectionModel().select(tabView);
-                        frame.getTabs().remove(tabEdit);
+                        getSelectionModel().select(tabView);
+                        getTabs().remove(tabEdit);
                         saved = false;
                     } else {}
                 }
@@ -414,8 +412,8 @@ public class MainFrame {
                         txtEditLastName.setText("");
                         txtEditEmail.setText("");
                         txtEditNumber.setText("");
-                        frame.getSelectionModel().select(tabView);
-                        frame.getTabs().remove(tabEdit);
+                        getSelectionModel().select(tabView);
+                        getTabs().remove(tabEdit);
                         saved = false;
                     } else {}
                 }
@@ -447,7 +445,7 @@ public class MainFrame {
         tabImport.setContent(paneImport);
         tabSettings.setContent(paneSettings);
 
-        frame.getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport, tabSettings);
+        getTabs().addAll(tabAdd, tabSearch, tabView, tabExport, tabImport, tabSettings);
     }
 
     private ArrayList<Person> importContactList(File file){
@@ -483,10 +481,6 @@ public class MainFrame {
     private String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
-    }
-
-    public static TabPane getFrame(){
-        return frame;
     }
 
     public static boolean getSaved(){

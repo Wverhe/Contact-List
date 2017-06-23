@@ -21,8 +21,7 @@ import java.io.IOException;
 /**
  * Created by agaspari on 6/19/2017.
  */
-public class NewPasswordFrame {
-    private CustomGridPane frame;
+public class NewPasswordFrame extends CustomGridPane {
     private CustomLabel lblPassword, lblRepeatPassword;
     private InfoLabel infoLabel;
     private PasswordField txtPassword, txtRepeatPassword;
@@ -31,9 +30,8 @@ public class NewPasswordFrame {
     private File password;
     public NewPasswordFrame(){
         encrypter = new Encrypter();
-        frame = new CustomGridPane();
-        frame.addColumns(2);
-        frame.setStyle(" -fx-background-color: #3c3c3c;");
+        addColumns(2);
+        setStyle(" -fx-background-color: #3c3c3c;");
         lblPassword = new CustomLabel("Password: ");
         lblRepeatPassword = new CustomLabel("Repeat Password: ");
         txtPassword = new PasswordField();
@@ -57,25 +55,21 @@ public class NewPasswordFrame {
                         txtPassword.setText("");
                         txtRepeatPassword.setText("");
                         infoLabel.dismiss();
-                        Main.getPrimaryStage().setScene(new Scene(new MainFrame().getFrame(), 375, 275));
+                        Main.getPrimaryStage().setScene(new Scene(new MainFrame(), 375, 275));
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
                 }
-                frame.setVisible(false);
+                setVisible(false);
                 e.consume();
             }
         );
 
-        frame.add(lblPassword, 0, 0);
-        frame.add(lblRepeatPassword, 0, 1);
-        frame.add(txtPassword, 1, 0);
-        frame.add(txtRepeatPassword, 1 ,1);
-        frame.add(btnSet, 1, 2);
-        frame.add(infoLabel, 0, 3, 2, 1);
-    }
-
-    public GridPane getFrame(){
-        return frame;
+        add(lblPassword, 0, 0);
+        add(lblRepeatPassword, 0, 1);
+        add(txtPassword, 1, 0);
+        add(txtRepeatPassword, 1 ,1);
+        add(btnSet, 1, 2);
+        add(infoLabel, 0, 3, 2, 1);
     }
 }
