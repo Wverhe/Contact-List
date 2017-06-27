@@ -52,7 +52,7 @@ public class MainFrame extends TabPane{
         index = -1;
         searchIndex = -1;
         setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        setStyle(" -fx-background-color: #3c3c3c;");
+        setStyle("-fx-background-color: #3c3c3c;");
 
         tabAdd = new Tab("Add");
         tabSearch = new Tab("Search");
