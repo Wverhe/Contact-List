@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class PasswordFrame extends CustomGridPane{
         btnSubmit.setOnAction(
             e -> {
                 try {
-                    if(encrypter.decryptText(readFile(password.getPath(), Charset.defaultCharset())).equals(txtPassword.getText())){
+                    if(encrypter.decryptText(readFile(password.getPath(), StandardCharsets.UTF_8)).equals(txtPassword.getText())){
                         Scene scene = new Scene(new MainFrame(), 375, 275);
                         scene.getStylesheets().add("/resources/stylesheet.css");
                         Main.getPrimaryStage().setScene(scene);

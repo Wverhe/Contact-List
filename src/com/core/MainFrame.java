@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -453,7 +454,7 @@ public class MainFrame extends TabPane{
         PrintWriter writer;
         ArrayList<Person> people = new ArrayList<>();
         try {
-            String ciphertext = readFile(file.getPath(), Charset.defaultCharset());
+            String ciphertext = readFile(file.getPath(), StandardCharsets.UTF_8);
             tempContacts = new File("temp-contacts.xml");
             tempContacts.createNewFile();
             writer = new PrintWriter(tempContacts);
